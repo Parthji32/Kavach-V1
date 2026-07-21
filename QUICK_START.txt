@@ -1,0 +1,127 @@
+═══════════════════════════════════════════════════════════════
+  KAVACH v1.0 — QUICK START GUIDE
+═══════════════════════════════════════════════════════════════
+
+BUILT TODAY ✅
+- Complete backend with JWT authentication
+- SQLite database with 6 tables
+- 13 API endpoints (auth, tokens, dashboard, alerts)
+- 5-dimensional traffic classifier
+- Alert dispatcher (webhook/email/Slack)
+- Full API documentation
+
+═══════════════════════════════════════════════════════════════
+STEP 1: START SERVER
+═══════════════════════════════════════════════════════════════
+
+cd E:\KAVACH_VISION_1
+go mod download
+go run ./cmd/server/main.go
+
+Expected output:
+  ✓ Database connection established
+  ✓ Database migrations completed
+  🚀 Starting KAVACH server on port 3000
+
+═══════════════════════════════════════════════════════════════
+STEP 2: REGISTER & LOGIN
+═══════════════════════════════════════════════════════════════
+
+Register:
+  curl -X POST http://localhost:3000/api/auth/register \
+    -H "Content-Type: application/json" \
+    -d '{"email":"test@example.com","password":"TestPass123","full_name":"Test"}'
+
+Login:
+  curl -X POST http://localhost:3000/api/auth/login \
+    -H "Content-Type: application/json" \
+    -d '{"email":"test@example.com","password":"TestPass123"}'
+
+SAVE THE TOKEN from login response!
+
+═══════════════════════════════════════════════════════════════
+STEP 3: CREATE HONEYPOT TOKENS
+═══════════════════════════════════════════════════════════════
+
+Create token:
+  curl -X POST http://localhost:3000/api/tokens \
+    -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+    -H "Content-Type: application/json" \
+    -d '{"token_type":"api_key","description":"Test"}'
+
+Bulk create (10 at once):
+  curl -X POST http://localhost:3000/api/tokens/bulk \
+    -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+    -H "Content-Type: application/json" \
+    -d '{"count":10}'
+
+═══════════════════════════════════════════════════════════════
+STEP 4: SETUP ALERTS
+═══════════════════════════════════════════════════════════════
+
+Add webhook alert:
+  curl -X POST http://localhost:3000/api/alerts/config \
+    -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+    -H "Content-Type: application/json" \
+    -d '{"alert_type":"webhook","destination":"https://your-webhook.com/alerts"}'
+
+═══════════════════════════════════════════════════════════════
+STEP 5: CHECK DASHBOARD
+═══════════════════════════════════════════════════════════════
+
+Get stats:
+  curl -X GET http://localhost:3000/api/dashboard/stats \
+    -H "Authorization: Bearer YOUR_TOKEN_HERE"
+
+═══════════════════════════════════════════════════════════════
+FILES TO READ
+═══════════════════════════════════════════════════════════════
+
+API.md                        - Complete API reference (25 endpoints)
+BUILD.md                      - Build, deploy, troubleshoot guide
+IMPLEMENTATION_STATUS.md      - What's built, what's next
+README_SETUP.md              - Setup instructions
+
+═══════════════════════════════════════════════════════════════
+DATABASE
+═══════════════════════════════════════════════════════════════
+
+Location: E:\KAVACH_VISION_1\kavach.db (auto-created)
+Type: SQLite
+
+Tables:
+  - users (authentication)
+  - tokens (honeypot tokens)
+  - attackers (identified threats)
+  - trigger_events (when tokens accessed)
+  - alert_configs (notification settings)
+  - sent_alerts (alert history)
+
+═══════════════════════════════════════════════════════════════
+WHAT'S NEXT
+═══════════════════════════════════════════════════════════════
+
+Week 2: Reverse proxy + token interception
+Week 3: Frontend dashboard
+Week 4: Rate limiting + security
+Week 5: Production deployment
+
+═══════════════════════════════════════════════════════════════
+TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════
+
+Error: "go: not found"
+  → Install Go 1.22+ from https://golang.org/dl/
+
+Error: "port 3000 already in use"  
+  → Change PORT=3001 in .env
+
+Error: "database file is locked"
+  → Stop server, wait 2s, restart
+
+Need help?
+  → Check BUILD.md troubleshooting section
+
+═══════════════════════════════════════════════════════════════
+READY TO BUILD 🚀
+═══════════════════════════════════════════════════════════════

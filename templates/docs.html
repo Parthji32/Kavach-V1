@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation — KAVACH</title>
+    <link rel="stylesheet" href="/static/css/index.css">
+</head>
+<body>
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <header id="site-header">
+        <a href="/" class="logo">
+            <div class="logo-icon">🛡️</div>
+            <span class="logo-text">KAVACH</span>
+        </a>
+        <nav class="nav">
+            <a href="/#products">Products</a>
+            <a href="/#vision">Vision</a>
+            <a href="/docs">Docs</a>
+            <a href="/profile">Account</a>
+        </nav>
+        <a href="/signup" class="cta-btn">Get Started</a>
+    </header>
+
+    <main style="margin-top: 100px; padding: 40px 20px;">
+        <section style="max-width: 900px; margin: 0 auto;">
+            <h1 style="font-size: 2.5rem; margin-bottom: 20px;">Documentation</h1>
+            <p style="font-size: 1.1rem; color: #999; margin-bottom: 40px;">Everything you need to get started with KAVACH</p>
+
+            <div style="display: grid; gap: 30px;">
+                <!-- Getting Started -->
+                <div style="background: #0D0B1A; border: 1px solid #1E1A30; padding: 30px; border-radius: 12px;">
+                    <h2 style="margin-bottom: 15px; color: #06B6D4;">🚀 Getting Started</h2>
+                    <p style="color: #999; margin-bottom: 20px;">Deploy your first honeypot in 5 minutes</p>
+                    <ul style="list-style: none; color: #E0E7FF;">
+                        <li style="margin: 10px 0;"><a href="/app" style="color: #7C3AED; text-decoration: none;">1. Sign up for free</a></li>
+                        <li style="margin: 10px 0;"><a href="/app" style="color: #7C3AED; text-decoration: none;">2. Create your first honeypot token</a></li>
+                        <li style="margin: 10px 0;"><a href="/app" style="color: #7C3AED; text-decoration: none;">3. Configure alert notifications</a></li>
+                        <li style="margin: 10px 0;"><a href="/app" style="color: #7C3AED; text-decoration: none;">4. Deploy tokens to your infrastructure</a></li>
+                    </ul>
+                </div>
+
+                <!-- Token Types -->
+                <div style="background: #0D0B1A; border: 1px solid #1E1A30; padding: 30px; border-radius: 12px;">
+                    <h2 style="margin-bottom: 15px; color: #06B6D4;">🎯 Token Types</h2>
+                    <p style="color: #999; margin-bottom: 20px;">KAVACH supports 5 different honeypot token types</p>
+                    <ul style="list-style: none; color: #E0E7FF;">
+                        <li style="margin: 10px 0;"><strong>URL Tokens</strong> - HTTP/HTTPS URLs for web applications</li>
+                        <li style="margin: 10px 0;"><strong>API Key Tokens</strong> - Fake API credentials</li>
+                        <li style="margin: 10px 0;"><strong>Document Tokens</strong> - Traceable document identifiers</li>
+                        <li style="margin: 10px 0;"><strong>DNS Tokens</strong> - DNS records that log lookups</li>
+                        <li style="margin: 10px 0;"><strong>Email Tokens</strong> - Email-based honeypots</li>
+                    </ul>
+                </div>
+
+                <!-- Alert Integration -->
+                <div style="background: #0D0B1A; border: 1px solid #1E1A30; padding: 30px; border-radius: 12px;">
+                    <h2 style="margin-bottom: 15px; color: #06B6D4;">🔔 Alert Integrations</h2>
+                    <p style="color: #999; margin-bottom: 20px;">Get instant notifications when honeypots are triggered</p>
+                    <ul style="list-style: none; color: #E0E7FF;">
+                        <li style="margin: 10px 0;"><strong>Webhooks</strong> - Custom HTTP endpoints (✓ Verified working)</li>
+                        <li style="margin: 10px 0;"><strong>Slack</strong> - Direct Slack channel notifications</li>
+                        <li style="margin: 10px 0;"><strong>Email</strong> - Email alerts with full context</li>
+                    </ul>
+                </div>
+
+                <!-- API Documentation -->
+                <div style="background: #0D0B1A; border: 1px solid #1E1A30; padding: 30px; border-radius: 12px;">
+                    <h2 style="margin-bottom: 15px; color: #06B6D4;">📚 API Reference</h2>
+                    <p style="color: #999; margin-bottom: 20px;">Build custom integrations with our REST API</p>
+                    <pre style="background: #12101F; padding: 15px; border-radius: 8px; overflow-x: auto; color: #06B6D4;"><code>POST /api/tokens
+POST /api/alerts/config
+GET /api/dashboard/stats
+GET /api/dashboard/attackers</code></pre>
+                    <p style="color: #999; margin-top: 15px;">Full API docs available in your dashboard</p>
+                </div>
+
+                <!-- Support -->
+                <div style="background: #0D0B1A; border: 1px solid #1E1A30; padding: 30px; border-radius: 12px; text-align: center;">
+                    <h2 style="margin-bottom: 15px; color: #06B6D4;">❓ Need Help?</h2>
+                    <p style="color: #999; margin-bottom: 20px;">Check out our FAQ or contact support</p>
+                    <a href="/app" style="display: inline-block; background: linear-gradient(135deg, #7C3AED, #8B5CF6); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Go to Dashboard</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/static/js/nav.js"></script>
+</body>
+</html>

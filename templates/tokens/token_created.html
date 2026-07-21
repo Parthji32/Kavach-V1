@@ -1,0 +1,101 @@
+<!-- This partial is returned by HTMX after a token is created -->
+<div class="bg-kavach-accent/10 border border-kavach-accent/30 rounded-xl p-5 animate-fade-in">
+    <div class="flex items-center gap-2 mb-3">
+        <svg class="w-5 h-5 text-kavach-accent" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        <h3 class="text-sm font-semibold text-kavach-accent">Token Created Successfully!</h3>
+    </div>
+    
+    <div class="space-y-3">
+        <div>
+            <p class="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Token Name</p>
+            <p class="text-sm text-white font-medium">{{.Token.Name}}</p>
+        </div>
+        <div>
+            <p class="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Type</p>
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-medium
+                {{if eq .Token.Type "url"}}bg-blue-500/15 text-blue-400
+                {{else if eq .Token.Type "document"}}bg-purple-500/15 text-purple-400
+                {{else if eq .Token.Type "api_key"}}bg-amber-500/15 text-amber-400
+                {{else if eq .Token.Type "dns"}}bg-kavach-accent/15 text-kavach-accent
+                {{else if eq .Token.Type "email"}}bg-pink-500/15 text-pink-400
+                {{else if eq .Token.Type "qr_code"}}bg-teal-500/15 text-teal-400
+                {{else if eq .Token.Type "cloned_site"}}bg-indigo-500/15 text-indigo-400
+                {{else if eq .Token.Type "web_image"}}bg-rose-500/15 text-rose-400
+                {{else if eq .Token.Type "aws_key"}}bg-orange-500/15 text-orange-400
+                {{else}}bg-gray-500/15 text-gray-400{{end}}">
+                {{.Token.Type}}
+            </span>
+        </div>
+        <div>
+            <p class="text-[10px] uppercase tracking-wider text-gray-500 mb-1">Your Token Payload (deploy this)</p>
+            <div class="flex items-center gap-2">
+                <code id="token-payload-display" class="flex-1 bg-kavach-dark border border-kavach-border rounded-lg px-4 py-2.5 text-sm font-mono text-kavach-accent break-all">{{.Token.Payload}}</code>
+                <button id="copy-payload-btn"
+                    class="shrink-0 bg-kavach-dark border border-kavach-border rounded-lg p-2.5 text-gray-400 hover:text-kavach-accent hover:border-kavach-accent/50 transition"
+                    title="Copy to clipboard">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"/><path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4 p-3 bg-kavach-dark/50 rounded-lg border border-kavach-border">
+        <p class="text-xs text-gray-400">
+            <span class="font-medium text-gray-300">💡 Next step:</span> 
+            {{if eq .Token.Type "url"}}Place this URL somewhere only an attacker would find — a hidden admin panel, a fake config file, or an internal wiki page.
+            {{else if eq .Token.Type "api_key"}}Store this fake key in a .env file, a config file, or a private repo. If anyone uses it, you'll know immediately.
+            {{else if eq .Token.Type "document"}}Place this document in a location that looks valuable — a shared drive, a "confidential" folder, or a backup directory.
+            {{else if eq .Token.Type "dns"}}Add this hostname to internal documentation or config files. Any DNS resolution attempt will trigger an alert.
+            {{else if eq .Token.Type "email"}}Use this email in internal documents or decoy contact lists. Any email sent to it will trigger an alert.
+            {{else if eq .Token.Type "qr_code"}}Print this QR code and place it in restricted areas, or embed it in internal documents.
+            {{else if eq .Token.Type "cloned_site"}}Add this JavaScript snippet to your website's HTML. It will alert you if anyone creates a copy.
+            {{else if eq .Token.Type "web_image"}}Embed this image URL in emails, forum posts, or documents. It's invisible but tracks when loaded.
+            {{else if eq .Token.Type "aws_key"}}Store these fake credentials in .env files, config files, or code repos. Any attempt to use them triggers an alert.
+            {{else}}Deploy this token in a location where unauthorized access would indicate a breach.
+            {{end}}
+        </p>
+    </div>
+
+    <div class="flex items-center gap-3 mt-4">
+        <a href="/tokens/new" class="text-xs text-kavach-accent hover:text-kavach-accent-hover transition">+ Create another token</a>
+        <a href="/tokens" class="text-xs text-gray-400 hover:text-white transition">View all tokens →</a>
+    </div>
+</div>
+
+<script>
+// Fix NEW-1: Safe clipboard copy using textContent from the DOM element
+// instead of interpolating payload into a JS string literal.
+// This avoids XSS regardless of what characters the payload contains.
+(function() {
+    var btn = document.getElementById('copy-payload-btn');
+    var payloadEl = document.getElementById('token-payload-display');
+    if (btn && payloadEl) {
+        btn.addEventListener('click', function() {
+            var text = payloadEl.textContent || payloadEl.innerText;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function() {
+                    btn.title = 'Copied!';
+                    btn.classList.add('text-green-400', 'border-green-400/50');
+                    btn.classList.remove('text-gray-400');
+                    setTimeout(function() {
+                        btn.title = 'Copy to clipboard';
+                        btn.classList.remove('text-green-400', 'border-green-400/50');
+                        btn.classList.add('text-gray-400');
+                    }, 2000);
+                });
+            } else {
+                // Fallback for older browsers
+                var textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                btn.title = 'Copied!';
+            }
+        });
+    }
+})();
+</script>

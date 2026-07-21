@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KAVACH — Honeypot Security Platform</title>
+    <link rel="stylesheet" href="/static/css/index.css">
+</head>
+<body>
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Header -->
+    <header id="site-header">
+        <a href="/" class="logo">
+            <div class="logo-icon">🛡️</div>
+            <span class="logo-text">KAVACH</span>
+        </a>
+        <nav class="nav">
+            <a href="#products">Products</a>
+            <a href="#vision">Vision</a>
+            <a href="/docs">Docs</a>
+            <a href="/profile">Account</a>
+        </nav>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Open navigation" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+        <a href="/signup" class="cta-btn">Get Started</a>
+    </header>
+
+    <div class="mobile-nav" id="mobile-nav">
+        <a href="#products">Products</a>
+        <a href="#vision">Vision</a>
+        <a href="/docs">Docs</a>
+        <a href="/signup">Get Started</a>
+    </div>
+
+    <main>
+        <!-- Hero -->
+        <section class="hero">
+            <div class="flair">Building deception at scale</div>
+            <h1>
+                Catch attackers <span class="hero-highlight">in the act.</span>
+            </h1>
+            <p class="hero-subtext">
+                KAVACH builds deception security that turns attackers into data. Deploy honeypot tokens, get instant alerts, and gain complete visibility into threats before they become breaches.
+            </p>
+            <div class="hero-ctas">
+                <a href="/signup" class="btn-primary">Deploy Honeypots Free 🚀</a>
+                <a href="#products" class="btn-secondary">Watch Demo →</a>
+            </div>
+        </section>
+
+        <!-- Metrics -->
+        <section class="metrics reveal">
+            <div class="metric">
+                <div class="metric-value" data-count="3847">3,847</div>
+                <div class="metric-label">Attacks Blocked</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value" data-count="342">342</div>
+                <div class="metric-label">Honeypots Active</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">99.8%</div>
+                <div class="metric-label">Detection Rate</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">24h</div>
+                <div class="metric-label">System Uptime</div>
+            </div>
+        </section>
+
+        <!-- Products -->
+        <section class="products" id="products">
+            <h2 style="font-size: 1.8rem; text-align: center; margin-bottom: 2.5rem;">Our Platform</h2>
+            <div class="products-grid">
+                <!-- Kavach v1 -->
+                <div class="product-card reveal" id="kavach">
+                    <span class="product-status">LIVE</span>
+                    <h3>Kavach v1</h3>
+                    <p>Multi-format canary tokens with real-time attacker fingerprinting.</p>
+                    <ul class="product-features">
+                        <li>5 token types (URL, Document, API Key, DNS, Email)</li>
+                        <li>Real-time attacker fingerprinting</li>
+                        <li>Slack, Email, Webhook alerts</li>
+                        <li>Correlation analysis</li>
+                    </ul>
+                    <a href="/products.html" class="product-link">Learn More <span class="arrow">→</span></a>
+                </div>
+
+                <!-- Kavach v2 -->
+                <div class="product-card reveal">
+                    <span class="product-status ongoing">IN DEVELOPMENT</span>
+                    <h3>Kavach v2</h3>
+                    <p>ML-powered invisible reverse proxy with 5D traffic classification.</p>
+                    <ul class="product-features">
+                        <li>5-dimensional traffic classifier (0-100 risk score)</li>
+                        <li>Automatic routing (safe/suspicious/attacker)</li>
+                        <li>Full-stack honeypot (website, API, services)</li>
+                        <li>Docker Compose ready</li>
+                    </ul>
+                    <a href="/products.html" class="product-link">Learn More <span class="arrow">→</span></a>
+                </div>
+
+                <!-- Dashboard -->
+                <div class="product-card reveal">
+                    <span class="product-status">COMING SOON</span>
+                    <h3>Control Center</h3>
+                    <p>Centralized dashboard for managing honeypots and threat intelligence.</p>
+                    <ul class="product-features">
+                        <li>Real-time attack feed</li>
+                        <li>Honeypot topology visualization</li>
+                        <li>Attacker profiles & TTPs</li>
+                        <li>One-click threat response</li>
+                    </ul>
+                    <a href="/dashboard.html" class="product-link">View Demo <span class="arrow">→</span></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>Product</h4>
+                <a href="/products.html">Features</a>
+                <a href="/docs.html">Documentation</a>
+                <a href="/about.html">About</a>
+                <a href="/faq.html">FAQ</a>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <a href="/about.html">About</a>
+                <a href="/contact.html">Contact</a>
+                <a href="https://github.com/Parthji32/ps-security-platform">GitHub</a>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <a href="/privacy.html">Privacy Policy</a>
+                <a href="/terms.html">Terms of Service</a>
+                <a href="/security.html">Security</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="/docs.html">Getting Started</a>
+                <a href="/faq.html">FAQ</a>
+                <a href="/contact.html">Support</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 PS Security Platform. Built with deception. Protect with intelligence.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Header pill: compact/elevated on scroll
+        (function () {
+            var header = document.getElementById('site-header');
+            function onScroll() {
+                if (window.scrollY > 30) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            }
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+        })();
+
+        // Mobile menu toggle
+        (function () {
+            var toggle = document.getElementById('menu-toggle');
+            var mobileNav = document.getElementById('mobile-nav');
+            if (!toggle || !mobileNav) return;
+
+            toggle.addEventListener('click', function () {
+                var isOpen = toggle.classList.toggle('active');
+                mobileNav.classList.toggle('active', isOpen);
+                toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                document.body.classList.toggle('menu-open', isOpen);
+            });
+
+            mobileNav.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', function () {
+                    toggle.classList.remove('active');
+                    mobileNav.classList.remove('active');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    document.body.classList.remove('menu-open');
+                });
+            });
+        })();
+
+        // Active link highlighting on scroll
+        (function () {
+            var links = Array.from(document.querySelectorAll('.nav a, .mobile-nav a'));
+            var sections = Array.from(document.querySelectorAll('main section[id]'));
+            if (!links.length || !sections.length) return;
+
+            function setActiveLink() {
+                var scrollPosition = window.scrollY + 140;
+                sections.forEach(function (section) {
+                    if (scrollPosition >= section.offsetTop && scrollPosition < section.offsetTop + section.offsetHeight) {
+                        links.forEach(function (link) {
+                            link.classList.toggle('active', link.getAttribute('href') === '#' + section.id);
+                        });
+                    }
+                });
+            }
+            window.addEventListener('scroll', setActiveLink, { passive: true });
+            setActiveLink();
+        })();
+
+        // Scroll-reveal for metrics + product cards
+        (function () {
+            var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            var items = document.querySelectorAll('.reveal');
+            if (reduce || !('IntersectionObserver' in window)) {
+                items.forEach(function (el) { el.classList.add('visible'); });
+                return;
+            }
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry, i) {
+                    if (entry.isIntersecting) {
+                        var el = entry.target;
+                        setTimeout(function () { el.classList.add('visible'); }, i * 90);
+                        io.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.15 });
+            items.forEach(function (el) { io.observe(el); });
+        })();
+
+        // Count-up animation for numeric metrics
+        (function () {
+            var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            var counters = document.querySelectorAll('.metric-value[data-count]');
+            if (reduce || !('IntersectionObserver' in window)) return;
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (!entry.isIntersecting) return;
+                    var el = entry.target;
+                    var target = parseInt(el.getAttribute('data-count'), 10);
+                    var start = null;
+                    var duration = 1400;
+                    function step(ts) {
+                        if (!start) start = ts;
+                        var progress = Math.min((ts - start) / duration, 1);
+                        var eased = 1 - Math.pow(1 - progress, 3);
+                        el.textContent = Math.floor(eased * target).toLocaleString('en-US');
+                        if (progress < 1) requestAnimationFrame(step);
+                        else el.textContent = target.toLocaleString('en-US');
+                    }
+                    requestAnimationFrame(step);
+                    io.unobserve(el);
+                });
+            }, { threshold: 0.5 });
+            counters.forEach(function (el) { io.observe(el); });
+        })();
+    </script>
+</body>
+</html>
