@@ -1,9 +1,10 @@
 {
   "build": {
     "builder": "nixpacks",
-    "buildCommand": "go build -o kavach ./cmd/server"
+    "buildCommand": "cd cmd/server && go build -o ../../kavach ."
   },
   "deploy": {
-    "startCommand": "./kavach"
+    "startCommand": "./kavach",
+    "restartPolicyMaxRetries": 5
   }
 }
