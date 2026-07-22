@@ -3,22 +3,5 @@ services:
     name: kavach
     runtime: go
     region: frankfurt
-    plan: free
-    autoDeploy: true
-    buildCommand: go build -o kavach ./cmd/server
+    buildCommand: go mod download && go build -o kavach ./cmd/server
     startCommand: ./kavach
-    envVars:
-      - key: PORT
-        value: "3000"
-      - key: JWT_SECRET
-        value: your-super-secret-key-min-32-chars-abc123xyz
-      - key: DATABASE_PATH
-        value: /var/data/kavach.db
-      - key: ENVIRONMENT
-        value: production
-      - key: LOG_LEVEL
-        value: info
-    disk:
-      - name: data
-        mountPath: /var/data
-        sizeGB: 1
