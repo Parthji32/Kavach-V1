@@ -1,8 +1,0 @@
-[build]
-cmds = ["CGO_ENABLED=1 go build -o kavach ."]
-
-[build.nixpkgs]
-pkgs = ["gcc", "pkg-config", "sqlite"]
-
-[start]
-cmd = "./kavach"
