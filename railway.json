@@ -1,0 +1,9 @@
+{
+  "build": {
+    "builder": "nixpacks",
+    "buildCommand": "go build -o kavach ./cmd/server"
+  },
+  "deploy": {
+    "startCommand": "./kavach"
+  }
+}
