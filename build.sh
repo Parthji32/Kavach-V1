@@ -1,14 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
+echo "Current directory: $(pwd)"
+echo "Contents:"
+ls -la
+
+echo ""
 echo "Building KAVACH..."
-
-# Build with proper CGO settings
-export CGO_ENABLED=1
-export GOOS=linux
-export GOARCH=amd64
-
-go mod download
-go build -o kavach ./cmd/server
+go build -v -o kavach ./cmd/server
 
 echo "Build complete!"
+ls -la kavach
