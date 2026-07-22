@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: kavach
-    runtime: go
-    region: frankfurt
-    buildCommand: go mod download && go build -o kavach ./cmd/server
-    startCommand: ./kavach
