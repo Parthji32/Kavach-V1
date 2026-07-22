@@ -35,7 +35,6 @@ logs/
 
 # Dependencies
 vendor/
-go.sum
 
 # Temporary files
 tmp/
