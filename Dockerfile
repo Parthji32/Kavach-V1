@@ -8,14 +8,15 @@ RUN apk add --no-cache gcc musl-dev sqlite-dev
 
 # Copy go mod files
 COPY go.mod ./
+COPY go.sum ./
 
 # Copy source code
 COPY cmd ./cmd
 COPY internal ./internal
 COPY migrations ./migrations
 
-# Tidy and download dependencies (after source is copied so it can detect imports)
-RUN GOSUMDB=off go mod tidy
+# Download dependencies with GOSUMDB off to skip validation
+RUN GOSUMDB=off go mod download
 
 # Download dependencies
 RUN go mod download
