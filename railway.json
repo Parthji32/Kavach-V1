@@ -1,7 +1,7 @@
 {
   "build": {
     "builder": "nixpacks",
-    "buildCommand": "go build -o kavach ."
+    "buildCommand": "CGO_ENABLED=1 go build -o kavach ."
   },
   "deploy": {
     "startCommand": "./kavach"
