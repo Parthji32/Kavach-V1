@@ -2,6 +2,9 @@ services:
   - type: web
     name: kavach
     runtime: go
+    region: frankfurt
+    plan: free
+    autoDeploy: true
     buildCommand: go build -o kavach ./cmd/server
     startCommand: ./kavach
     envVars:
@@ -16,6 +19,6 @@ services:
       - key: LOG_LEVEL
         value: info
     disk:
-      name: data
-      mountPath: /var/data
-      sizeGB: 1
+      - name: data
+        mountPath: /var/data
+        sizeGB: 1
