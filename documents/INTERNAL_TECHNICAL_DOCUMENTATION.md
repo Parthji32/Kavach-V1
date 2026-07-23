@@ -1,426 +1,104 @@
-# KAVACH - Internal Technical Documentation (Updated)
-
-**For:** Development Team  
-**Version:** 2.0.0 (Updated Session 9)  
-**Date:** July 22, 2026  
-**Status:** Production Ready, MVP Complete
+# KAVACH V1 - Internal Technical Documentation
+**For:** Developers, DevOps, System Engineers  
+**Last Updated:** Thursday, July 23, 2026  
+**Version:** 1.0.0-prod
 
 ---
 
-## TABLE OF CONTENTS
-1. [Quick Start](#quick-start)
-2. [Architecture](#architecture)
-3. [Project Structure](#project-structure)
-4. [Building & Running](#building--running)
-5. [API Reference](#api-reference)
-6. [Database Schema](#database-schema)
-7. [Attack Detection Pipeline](#attack-detection-pipeline)
-8. [Alert System](#alert-system)
-9. [Deployment](#deployment)
-10. [Troubleshooting](#troubleshooting)
+## Architecture Overview
 
----
-
-## QUICK START
-
-### Prerequisites
-- Go 1.22+
-- Docker & Docker Compose
-- Git
-
-### Local Development (Docker)
-```bash
-cd E:\KAVACH_VISION_1
-
-# Build and run
-docker-compose up --build
-
-# Server runs on http://localhost:3000
-# Database: SQLite at ./data/kavach.db
-
-# Clean rebuild
-docker-compose down
-rm -r data/
-docker-compose up --build
+### High-Level Flow
+```
+User Request
+    ↓
+Honeypot Detection Middleware (checks token in params/headers/form)
+    ↓
+If Token Found:
+  - Fingerprint generation
+  - Attacker lookup/create
+  - Event logging
+  - Alert dispatch (async)
+    ↓
+Otherwise:
+  - Route to handler
+    ↓
+Response sent to client
 ```
 
-### First Steps
-1. Navigate to http://localhost:3000
-2. Click "Get Started" → Sign up
-3. Create honeypot tokens via dashboard
-4. Test attack detection (see Testing section)
-
----
-
-## ARCHITECTURE
-
-### System Design
+### Deployment Architecture
 ```
-┌─────────────────────────────────────────────────┐
-│                 Browser / Client                │
-└──────────────────────────┬──────────────────────┘
-                           │
-                 HTTP Request (Fiber)
-                           │
-                           ▼
-┌─────────────────────────────────────────────────┐
-│          KAVACH Server (Go/Fiber v2)            │
-│                                                 │
-│  1. Honeypot Detection Middleware               │
-│     ├─ Check URL params for tokens             │
-│     ├─ Check Authorization header              │
-│     ├─ Check form data (POST bodies)           │
-│     └─ If found: Trigger detection flow        │
-│                                                 │
-│  2. Fingerprinting Service                      │
-│     ├─ IP address extraction                   │
-│     ├─ User-Agent parsing                      │
-│     ├─ Device fingerprint (MD5 hash)           │
-│     └─ Geolocation lookup                      │
-│                                                 │
-│  3. Risk Classification (7D)                    │
-│     ├─ IP reputation (25%)                     │
-│     ├─ Request rate (15%)                      │
-│     ├─ Payload analysis (15%)                  │
-│     ├─ Header fingerprint (12%)                │
-│     ├─ Behavioral anomaly (12%)                │
-│     ├─ Geolocation (12%)                       │
-│     └─ Timing pattern (9%)                     │
-│     → Risk Score: 0-100                        │
-│                                                 │
-│  4. Attacker Correlation                        │
-│     ├─ Look up by fingerprint                  │
-│     ├─ Create if new                           │
-│     └─ Update with latest context              │
-│                                                 │
-│  5. Event Logging                               │
-│     └─ Store trigger_event in DB               │
-│                                                 │
-│  6. Alert Dispatch (Async)                      │
-│     ├─ Get user's alert configs                │
-│     ├─ Build payload (attacker + context)      │
-│     ├─ Send webhook/Slack/email                │
-│     └─ Log delivery status                     │
-│                                                 │
-│  7. Dashboard Update                            │
-│     └─ Real-time stats (tokens, attackers)    │
-└─────────────────────────────────────────────────┘
-                           │
-                           ▼
-┌─────────────────────────────────────────────────┐
-│         SQLite Database (data/kavach.db)        │
-│                                                 │
-│  Tables:                                        │
-│  ├─ users (auth, profiles)                     │
-│  ├─ tokens (honeypots: 5 types)                │
-│  ├─ attackers (profiles, risk scores)          │
-│  ├─ trigger_events (attack log)                │
-│  └─ alert_configs (webhook/Slack/email)       │
-└─────────────────────────────────────────────────┘
-```
-
-### Key Components
-
-| Component | Tech | Purpose | Status |
-|-----------|------|---------|--------|
-| **Web Server** | Fiber v2 | HTTP API + routing | ✅ Production |
-| **Database** | SQLite3 | Persistence layer | ✅ Optimized |
-| **Auth** | JWT (HS256) + bcrypt | User verification | ✅ Secure |
-| **Fingerprinting** | MD5 hash + UA parsing | Attacker profiling | ✅ Complete |
-| **Classification** | 7D algorithm | Risk scoring | ✅ ML-ready |
-| **Alerts** | Webhook/Slack/Email | Notifications | ✅ Tested |
-| **Frontend** | HTML + HTMX + Tailwind | UI/UX | ✅ Live |
-| **Dashboard** | Go templates + HTMX | Real-time monitoring | ✅ Working |
-
----
-
-## PROJECT STRUCTURE
-
-```
-E:\KAVACH_VISION_1\
-│
-├── cmd/
-│   └── server/
-│       └── main.go                      # Entry point (65 handlers)
-│
-├── internal/
-│   ├── alerts/
-│   │   └── dispatcher.go                # Webhook/Slack/Email alerts
-│   ├── classifier/
-│   │   ├── traffic_classifier.go        # 5D classifier (ref)
-│   │   └── advanced_classifier.go       # 7D ML-ready classifier
-│   ├── database/
-│   │   ├── db.go                        # SQLite init + migrations
-│   │   ├── user.go                      # User CRUD
-│   │   ├── token.go                     # Token CRUD
-│   │   ├── attacker.go                  # Attacker operations
-│   │   ├── trigger_event.go             # Event logging
-│   │   ├── alert_config.go              # Alert config CRUD
-│   │   ├── attacker_methods.go          # Extra attacker ops
-│   │   └── dashboard.go                 # Dashboard stats
-│   ├── fingerprint/
-│   │   └── fingerprint_service.go       # Device fingerprinting
-│   ├── handlers/
-│   │   ├── auth_handlers.go             # Register, Login, Profile
-│   │   ├── token_handlers.go            # Token management
-│   │   ├── dashboard_handlers.go        # Stats + attackers
-│   │   ├── alert_handlers.go            # Alert config
-│   │   ├── page_handlers.go             # Page rendering
-│   │   ├── proxy_handlers.go            # Proxy setup
-│   │   └── validation.go                # Input validators
-│   ├── middleware/
-│   │   └── auth.go                      # JWT validation
-│   ├── models/
-│   │   ├── models.go                    # Data structures
-│   │   └── requests.go                  # Request/Response DTOs
-│   └── services/
-│       ├── auth.go                      # JWT + password logic
-│       ├── token_generator.go           # Token creation
-│       ├── fingerprint_service.go       # Fingerprinting
-│       └── user_context.go              # Device trust
-│
-├── migrations/
-│   └── 001_init.sql                     # Database schema
-│
-├── static/
-│   ├── css/
-│   │   └── index.css                    # Landing page styles
-│   └── js/
-│       ├── app.js                       # HTMX interactions
-│       └── animations.js                # Scroll animations
-│
-├── templates/
-│   ├── index.html                       # Landing page
-│   ├── products.html                    # Products page
-│   ├── docs.html                        # Documentation
-│   ├── vision.html                      # Vision page
-│   ├── auth/
-│   ├── dashboard/
-│   ├── tokens/
-│   ├── attackers/
-│   ├── alerts/
-│   ├── integrations/
-│   └── settings/
-│
-├── tests/
-│   ├── auth_service_test.go             # 22 auth tests
-│   ├── token_generator_test.go          # 1000+ iterations
-│   ├── classifier_test.go               # 25 classifier tests
-│   └── KAVACH_API.postman_collection.json  # 16 scenarios
-│
-├── demo_pages/                          # Updated website redesign
-│   ├── homepage_updated.html            # Real messaging
-│   ├── how-it-works_updated.html        # 7D classifier explained
-│   ├── login_updated.html               # Proper auth UI
-│   ├── pricing_updated.html             # Pricing structure
-│   └── use-cases_updated.html           # Real scenarios
-│
-├── documents/
-│   ├── COMPLETE_CHAT_SUMMARY.md         # Full project history
-│   ├── INTERNAL_TECHNICAL_DOCUMENTATION.md  # This file
-│   ├── PRODUCT_PITCH_FOR_CUSTOMERS.md   # Sales doc
-│   ├── WEBSITE_WIREFRAMES.md            # UX/UI specs
-│   └── DEMO_PAGES_UPDATE_GUIDE.md       # Redesign guide
-│
-├── Dockerfile                           # Multi-stage build
-├── docker-compose.yml                   # Local dev setup
-├── go.mod                               # Go dependencies
-├── go.sum                               # Go dependency hashes
-├── .env                                 # Environment config
-├── .gitignore                           # Git rules
-└── server.exe                           # Compiled binary
+Internet
+    ↓
+Railway (Load Balancer)
+    ↓
+Docker Container (Alpine 3.20)
+    ├── Go Binary (main.go, 65 handlers)
+    ├── SQLite Database (/var/data/kavach.db)
+    ├── Templates folder (7 HTML pages)
+    └── Static assets (CSS, JS)
+    ↓
+GitHub (Auto-deploy on push)
 ```
 
 ---
 
-## BUILDING & RUNNING
-
-### Local Development (Recommended)
-
-**1. Start with Docker Compose:**
-```bash
-cd E:\KAVACH_VISION_1
-docker-compose up --build
-```
-
-Server runs on http://localhost:3000, database at `./data/kavach.db`
-
-**2. Test locally:**
-```powershell
-# Create user
-$body = @{
-    full_name = "Test User"
-    email = "test@example.com"
-    password = "TestPassword123!"
-} | ConvertTo-Json
-
-Invoke-WebRequest -Uri "http://localhost:3000/api/auth/register" `
-  -Method POST -ContentType "application/json" -Body $body
-
-# Create token
-$header = @{ Authorization = "Bearer YOUR_JWT_TOKEN" }
-Invoke-WebRequest -Uri "http://localhost:3000/api/tokens" `
-  -Method POST -Headers $header `
-  -Body '{"token_type":"url","description":"Test"}'
-```
-
-### Production Deployment (Railway.app)
-
-**1. Push to GitHub:**
-```bash
-git add .
-git commit -m "KAVACH production build"
-git push origin main
-```
-
-**2. Railway auto-deploys:**
-- Detects Go app
-- Runs build: `go build -o kavach ./cmd/server`
-- Starts: `./kavach`
-- Live at: https://kavach-v1-production.up.railway.app
-
-**3. Environment variables (set in Railway dashboard):**
-```
-PORT=3000
-JWT_SECRET=[your-secret-key-32-chars-min]
-DATABASE_PATH=/var/data/kavach.db
-ENVIRONMENT=production
-LOG_LEVEL=info
-```
-
----
-
-## API REFERENCE
-
-### Authentication
-
-**POST /api/auth/register**
-```json
-{
-  "full_name": "User Name",
-  "email": "user@example.com",
-  "password": "SecurePassword123!"
-}
-```
-Returns: `{success: true, data: {user_id, email}}`
-
-**POST /api/auth/login**
-```json
-{
-  "email": "user@example.com",
-  "password": "SecurePassword123!"
-}
-```
-Returns: `{success: true, data: {token, user, expires_in}}`
-
-### Tokens (Honeypots)
-
-**POST /api/tokens** — Create single token
-```json
-{
-  "token_type": "url|api_key|document|dns|email",
-  "description": "Optional description"
-}
-```
-
-**GET /api/tokens** — List tokens (paginated)
-Query params: `limit` (1-500, default 50), `offset` (≥0, default 0)
-
-**DELETE /api/tokens/:tokenID** — Deactivate token
-
-**POST /api/tokens/bulk** — Create multiple
-```json
-{
-  "count": 10,
-  "token_type": "api_key",
-  "description": "Bulk created"
-}
-```
-
-### Dashboard
-
-**GET /api/dashboard/stats** 
-Returns: `{total_tokens, active_tokens, total_attackers, high_risk_count, events_last_24h}`
-
-**GET /api/dashboard/attackers**
-Returns: List of attackers (paginated)
-
-**GET /api/dashboard/events**
-Returns: List of trigger events (paginated)
-
-### Alerts
-
-**POST /api/alerts/config**
-```json
-{
-  "alert_type": "webhook|slack|email",
-  "destination": "https://webhook.site/..." | "slack-channel" | "email@domain"
-}
-```
-
-**GET /api/alerts/config**
-Returns: List of user's alert configs
-
-**DELETE /api/alerts/config/:configID**
-Removes alert config
-
-### Pages
-
-All page routes return HTML (no JSON):
-- `GET /` — Landing page
-- `GET /login` — Login page
-- `GET /app` — Dashboard (requires JWT in cookie)
-- `GET /tokens` — Token management
-- `GET /attackers` — Attacker list
-- `GET /alerts` — Alert configuration
-- `GET /settings` — User settings
-
----
-
-## DATABASE SCHEMA
+## Database Schema (7 Tables)
 
 ### users
 ```sql
 CREATE TABLE users (
   id TEXT PRIMARY KEY,
-  full_name TEXT NOT NULL,
+  full_name TEXT,
   email TEXT UNIQUE NOT NULL,
   password_hash TEXT NOT NULL,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  jwt_secret TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  last_login DATETIME
 );
 ```
+**Indexes:** `idx_users_email`
 
 ### tokens
 ```sql
 CREATE TABLE tokens (
   id TEXT PRIMARY KEY,
   user_id TEXT NOT NULL,
-  token_value TEXT UNIQUE NOT NULL,
-  token_type TEXT NOT NULL,     -- url, api_key, document, dns, email
   name TEXT,
+  token_value TEXT UNIQUE NOT NULL,
+  token_type TEXT NOT NULL, -- url, api_key, document, dns, email
   description TEXT,
-  is_active INTEGER DEFAULT 1,
+  is_active BOOLEAN DEFAULT 1,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  triggered_at DATETIME,
   FOREIGN KEY(user_id) REFERENCES users(id)
 );
 ```
+**Indexes:** `idx_tokens_user_id`, `idx_tokens_value`
 
 ### attackers
 ```sql
 CREATE TABLE attackers (
   id TEXT PRIMARY KEY,
   user_id TEXT NOT NULL,
-  ip_address TEXT NOT NULL,
-  fingerprint TEXT UNIQUE NOT NULL, -- MD5 hash
+  fingerprint TEXT,  -- MD5(IP + UA + lang + enc)
+  ip_address TEXT,
+  user_agent TEXT,
+  os TEXT,
+  browser TEXT,
+  device_type TEXT,
   risk_score REAL DEFAULT 0,
-  risk_level TEXT,                   -- low, medium, high, critical
-  detection_count INTEGER DEFAULT 0,
-  is_known_user INTEGER DEFAULT 0,
+  risk_level TEXT,  -- low, medium, high, critical
+  detection_count INT DEFAULT 1,
+  is_known_user BOOLEAN DEFAULT 0,
+  is_blocked BOOLEAN DEFAULT 0,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY(user_id) REFERENCES users(id)
 );
 ```
+**Indexes:** `idx_attackers_user_id`, `idx_attackers_fingerprint`
 
 ### trigger_events
 ```sql
@@ -428,320 +106,416 @@ CREATE TABLE trigger_events (
   id TEXT PRIMARY KEY,
   user_id TEXT NOT NULL,
   token_id TEXT NOT NULL,
-  attacker_id TEXT NOT NULL,
+  attacker_id TEXT,
   event_type TEXT DEFAULT 'token_accessed',
+  request_method TEXT,
   request_path TEXT,
-  request_headers TEXT,              -- JSON
+  request_headers TEXT,  -- JSON
   ip_address TEXT,
   user_agent TEXT,
+  classification_reason TEXT,
+  risk_score REAL,
   timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY(user_id) REFERENCES users(id),
   FOREIGN KEY(token_id) REFERENCES tokens(id),
   FOREIGN KEY(attacker_id) REFERENCES attackers(id)
 );
 ```
+**Indexes:** `idx_events_user_id`, `idx_events_attacker_id`
 
 ### alert_configs
 ```sql
 CREATE TABLE alert_configs (
   id TEXT PRIMARY KEY,
   user_id TEXT NOT NULL,
-  alert_type TEXT NOT NULL,          -- webhook, slack, email
-  destination TEXT NOT NULL,
-  is_enabled INTEGER DEFAULT 1,
+  alert_type TEXT NOT NULL,  -- webhook, slack, email
+  destination TEXT NOT NULL,  -- URL or email
+  is_enabled BOOLEAN DEFAULT 1,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY(user_id) REFERENCES users(id)
+);
+```
+**Indexes:** `idx_alert_configs_user_id`
+
+### sent_alerts
+```sql
+CREATE TABLE sent_alerts (
+  id TEXT PRIMARY KEY,
+  user_id TEXT NOT NULL,
+  config_id TEXT NOT NULL,
+  event_id TEXT NOT NULL,
+  status TEXT,  -- pending, sent, failed
+  response_code INT,
+  error_message TEXT,
+  sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(user_id) REFERENCES users(id),
+  FOREIGN KEY(config_id) REFERENCES alert_configs(id),
+  FOREIGN KEY(event_id) REFERENCES trigger_events(id)
 );
 ```
 
 ---
 
-## ATTACK DETECTION PIPELINE
+## API Endpoints (28 Total)
 
-### Full Flow (Step-by-Step)
-
-**1. Request Arrives**
+### Authentication Endpoints
 ```
-GET http://localhost:3000/api/dashboard/stats?token=sk_0d7dce...
-```
-
-**2. Honeypot Detection Middleware**
-- Scans `query` params for patterns: `sk_`, `token_`, etc.
-- Scans `Authorization` header: `Bearer sk_...`
-- Scans `POST` body form fields (token, api_key, password, etc.)
-- ✅ Found: `sk_0d7dce...` in query param
-
-**3. Token Lookup**
-```go
-tokenRecord := db.GetTokenByValue("sk_0d7dce...")
-// Returns: {ID, UserID, TokenType, IsActive}
+POST   /api/auth/register           (Register new user)
+POST   /api/auth/login              (Login, returns JWT)
+POST   /api/auth/trust-device       (Mark device as trusted)
+GET    /api/user/profile            (Get logged-in user's profile)
 ```
 
-**4. Fingerprinting**
-```go
-fingerprint := md5.Sum([]byte(
-  fmt.Sprintf("%s|%s|%s|%s", 
-    clientIP, userAgent, language, encoding)))
-// Result: "abc123def456..."
+### Token Management Endpoints
+```
+POST   /api/tokens                  (Create new token)
+GET    /api/tokens                  (List user's tokens, paginated)
+GET    /api/tokens/:tokenID         (Get single token details)
+DELETE /api/tokens/:tokenID         (Deactivate token)
+POST   /api/tokens/bulk             (Create multiple tokens)
 ```
 
-**5. Classification (7D)**
+### Dashboard Endpoints
 ```
-Score calculation:
-├─ IP Reputation (25%):     Public IP = 0, Private = 50, Known Bad = 100
-├─ Request Rate (15%):      First request = 0, High velocity = 100
-├─ Payload (15%):           Clean = 0, SQLi patterns = 100
-├─ Headers (12%):           Normal = 0, Bot signature = 100
-├─ Behavior (12%):          Normal path = 0, Admin/traversal = 100
-├─ Geolocation (12%):       Normal = 0, VPN/unusual = 100
-└─ Timing (9%):             Variable = 0, Machine-like = 100
-   ────────────────
-   Final Score: 95 → CRITICAL (honeypot hit)
+GET    /api/dashboard/stats         (Total tokens, attackers, events)
+GET    /api/dashboard/attackers     (List high-risk attackers)
+GET    /api/dashboard/events        (List trigger events, 24h)
 ```
 
-**6. Attacker Correlation**
-```go
-// Look up by fingerprint
-attacker := db.GetAttackerByFingerprint("abc123def456...")
-if !found {
-  // Create new attacker record
-  attacker = Attacker{
-    ID: UUID(),
-    UserID: tokenRecord.UserID,
-    IPAddress: clientIP,
-    Fingerprint: fingerprint,
-    RiskScore: 95,
-    RiskLevel: "critical",
-  }
-  db.CreateAttacker(attacker)
-} else {
-  // Update existing
-  attacker.DetectionCount++
-  attacker.RiskScore = 95
-  db.UpdateAttacker(attacker)
-}
+### Alert Configuration Endpoints
+```
+POST   /api/alerts/config           (Create alert config)
+GET    /api/alerts/config           (List user's alert configs)
+DELETE /api/alerts/config/:configID (Delete alert config)
 ```
 
-**7. Event Logging**
-```go
-event := TriggerEvent{
-  ID: UUID(),
-  UserID: tokenRecord.UserID,
-  TokenID: tokenRecord.ID,
-  AttackerID: attacker.ID,
-  EventType: "token_accessed",
-  RequestPath: "/api/dashboard/stats",
-  RequestHeaders: headersJSON,
-  IPAddress: clientIP,
-  UserAgent: userAgent,
-  Timestamp: now(),
-}
-db.CreateTriggerEvent(event)
+### Page Routes (Not API)
 ```
-
-**8. Alert Dispatch (Async)**
-```go
-go func() {
-  configs := db.GetAlertConfigsByUserID(tokenRecord.UserID)
-  for _, config := range configs {
-    payload := BuildWebhookPayload(attacker, event, tokenRecord)
-    switch config.AlertType {
-    case "webhook":
-      alerts.SendWebhookAlert(config.Destination, payload)
-    case "slack":
-      alerts.SendSlackAlert(config.Destination, payload)
-    case "email":
-      alerts.SendEmailAlert(config.Destination, payload)
-    }
-  }
-}()
+GET    /                            (Homepage)
+GET    /login                       (Login form)
+GET    /signup                      (Registration form)
+GET    /app                         (Dashboard - requires auth)
+GET    /tokens                      (Token management page)
+GET    /how-it-works                (How It Works page)
+GET    /pricing                     (Pricing page)
+GET    /use-cases                   (Use Cases page)
+GET    /faq                         (FAQ page)
+GET    /support                     (Support & Contact page)
+GET    /health                      (Health check)
 ```
-
-**9. Dashboard Updated**
-- Real-time stats recalculated
-- Attacker profile visible in UI
-- Event timeline updated
-
-**10. Response Sent**
-```json
-{
-  "success": true,
-  "data": {
-    "total_tokens": 5,
-    "active_tokens": 5,
-    "total_attackers": 1,
-    "high_risk_count": 1,
-    "events_last_24h": 1
-  },
-  "message": "Stats retrieved"
-}
-```
-
-### Risk Scoring Details
-
-**Default Thresholds:**
-- **0-55:** ALLOW (low risk)
-- **55-65:** FLAG (monitor)
-- **65-75:** CHALLENGE (MFA prompt)
-- **75-95:** BLOCK (immediate block)
-- **95+:** HONEYPOT TRIGGER (critical)
 
 ---
 
-## ALERT SYSTEM
+## 7-Dimensional ML Classifier
 
-### Webhook Payload Structure
+### Dimensions & Weights
+| Dimension | Weight | Range | Scoring |
+|-----------|--------|-------|---------|
+| IP Reputation | 25% | 0-100 | Private IPs (0), Datacenter (20), Known-bad (100) |
+| Request Rate | 15% | 0-100 | <1/min (0), >10/sec (100) |
+| Payload Analysis | 15% | 0-100 | Clean (0), SQLi/XSS (50), Command inject (100) |
+| Header Fingerprint | 12% | 0-100 | Normal headers (0), Bot UAs/missing headers (100) |
+| Behavioral Anomaly | 12% | 0-100 | Normal path (0), Admin path (25), Traversal (100) |
+| Geolocation | 12% | 0-100 | Known country (0), VPN/proxy (50), Suspicious country (100) |
+| Timing Pattern | 9% | 0-100 | Variable (0), Machine-like intervals (100) |
+
+### Risk Actions
+- **0-55:** ALLOW (low risk)
+- **55-65:** FLAG (monitor, optional MFA)
+- **65-75:** CHALLENGE (require MFA)
+- **75+:** BLOCK (HTTP 403)
+- **Honeypot Token:** 99 (immediate block + alert)
+
+---
+
+## Device Fingerprinting
+
+### Fingerprint Generation
+```go
+fingerprint := MD5(IP + User-Agent + Accept-Language + Accept-Encoding)
+```
+- Consistent for same device + network combo
+- Allows tracking of repeat attackers
+- Used to correlate multiple events
+
+### Fingerprint Fields Captured
+- IP Address
+- User-Agent (OS, browser, version)
+- Accept-Language (region hints)
+- Accept-Encoding (compression preferences)
+- TLS fingerprint (JA3 – future enhancement)
+
+---
+
+## Honeypot Token Types
+
+### URL Token
+```
+Format: https://api.internal.company.com/v1/users?token=sk_<random>
+Detection: Scanned in request URL query params
+Use: Hidden in documentation, runbooks, comments
+```
+
+### API Key Token
+```
+Format: sk_<64-char-random>
+Detection: Bearer token in Authorization header
+Use: Committed to Git repos, shared in Slack, env files
+```
+
+### Document Token
+```
+Format: PDF/Doc with embedded tracking token
+Detection: Access log + watermark validation
+Use: Shared with vendors, left on desktops
+```
+
+### DNS Token
+```
+Format: honeypot-<uuid>.internal.company.com
+Detection: DNS query (requires DNS server integration)
+Use: Embedded in configs, internal wikis
+```
+
+### Email Token
+```
+Format: honeypot-<uuid>@company.com
+Detection: Email forwarding rules capture access
+Use: Added to mailing lists, contact forms
+```
+
+---
+
+## Alert Dispatch System
+
+### Webhook Delivery
 ```json
 {
   "event_type": "token_accessed",
-  "timestamp": "2026-07-22T14:30:00Z",
-  "user_id": "user-uuid-...",
-  "token_id": "token-uuid-...",
-  "token_value": "https://internal-api.company.com/admin",
-  "token_type": "url",
-  "attacker_id": "attacker-uuid-...",
+  "timestamp": "2026-07-23T10:45:30Z",
+  "user_id": "uuid",
+  "token_id": "uuid",
+  "token_value": "sk_...",
+  "token_type": "api_key",
+  "attacker_id": "uuid",
   "attacker_ip": "192.168.1.105",
   "risk_score": 95,
   "risk_level": "critical",
-  "detected_at": "2026-07-22T14:30:00Z",
   "severity": "critical",
-  "message": "Honeypot token (url) accessed from 192.168.1.105 with risk score 95 (critical)",
-  "attacker_profile": {
-    "device_fingerprint": "abc123def456...",
-    "browser": "Chrome 120",
-    "os": "Windows 10",
-    "geolocation": "Unknown VPN",
-    "detection_history": 1
-  }
+  "message": "Honeypot token accessed"
 }
 ```
 
-### Slack Format
+### Retry Logic
+- Attempt 1: Immediate
+- Attempt 2: Wait 1 second
+- Attempt 3: Wait 2 seconds
+- Attempt 4: Wait 4 seconds
+- Then: Give up + log failure
+
+### Slack Integration
 ```
-🚨 CRITICAL ALERT - HONEYPOT TRIGGERED
-
-Token: https://internal-api.company.com/admin (type: url)
-Attacker IP: 192.168.1.105
-Risk Score: 95/100
-Device: Chrome on Windows 10
-Geolocation: Unknown VPN
-
-Action: Block attacker | Investigate | Dismiss
+Sends formatted blocks with:
+- Risk level (color-coded: red=critical, orange=high, yellow=medium, green=low)
+- Attacker IP & location
+- Token type
+- Event timestamp
+- Link to dashboard
 ```
 
 ---
 
-## DEPLOYMENT
+## Development Setup
 
-### Production Checklist
-
-- [ ] Environment variables set in Railway dashboard
-- [ ] JWT_SECRET is 32+ chars, cryptographically random
-- [ ] DATABASE_PATH points to persistent volume
-- [ ] Email configuration (if using email alerts)
-- [ ] SSL/TLS enabled (Railway auto-provides)
-- [ ] Rate limiting configured (if needed)
-- [ ] Monitoring/logging enabled
-- [ ] Backup strategy for SQLite database
-- [ ] Domain configured (if custom domain needed)
-
-### Railway Dashboard Setup
-
-1. **Create new Web Service** → Connect GitHub
-2. **Select:** Parthji32/Kavach-V1 repo, main branch
-3. **Runtime:** Go (auto-detected)
-4. **Environment → Add variables:**
-   - PORT: 3000
-   - JWT_SECRET: (generate random 32-char string)
-   - DATABASE_PATH: /var/data/kavach.db
-   - ENVIRONMENT: production
-   - LOG_LEVEL: info
-5. **Disk → Add disk:**
-   - Name: data
-   - Mount Path: /var/data
-   - Size: 1 GB
-6. **Deploy** → Auto-builds and starts
-
----
-
-## TROUBLESHOOTING
-
-### Server Won't Start
-
-**Error: `bind: address already in use`**
-```bash
-# Port 3000 is taken
-# Kill existing process
-netstat -ano | findstr :3000
-taskkill /PID [PID] /F
-```
-
-**Error: `database is locked`**
-```bash
-# SQLite has exclusive lock
-# Stop Docker, delete db, restart
-docker-compose down
-rm data/kavach.db
-docker-compose up
-```
-
-### Attack Detection Not Triggering
-
-**Check:** Honeypot detection middleware
-```go
-// Verify token is in correct location (URL param, header, form)
-GET /api/dashboard/stats?token=sk_0d7dce...  // ✅ Correct
-POST /api/dashboard/stats with form: token=sk_...  // ✅ Correct
-```
-
-**Check:** Token exists in database
-```bash
-sqlite3 data/kavach.db "SELECT * FROM tokens WHERE token_value LIKE 'sk_%';"
-```
-
-**Check:** Alert configs exist
-```bash
-sqlite3 data/kavach.db "SELECT * FROM alert_configs WHERE user_id='...';"
-```
-
-### Alerts Not Delivering
-
-**Check:** Webhook URL is reachable
+### Local Build & Run
 ```powershell
-curl -X POST "YOUR_WEBHOOK_URL" `
-  -H "Content-Type: application/json" `
-  -D '{"test": true}'
+cd E:\KAVACH_VISION_1
+
+# Build locally (requires Go 1.22)
+go build -o server.exe .
+
+# Or run via Docker (recommended)
+docker-compose up --build
+
+# Watch logs
+docker-compose logs -f
+
+# Stop
+docker-compose down
 ```
 
-**Check:** Network access from Railway
-- Webhook must be publicly accessible (no localhost)
-- Check firewall/CORS if external
+### Environment Variables
+```
+PORT=3000
+DATABASE_PATH=./kavach.db  (or /var/data/kavach.db in Docker)
+JWT_SECRET=<random-32-char-string>
+ENVIRONMENT=production
+LOG_LEVEL=info
+```
 
-**Check:** Logs in Railway dashboard
-- View real-time logs for alert dispatch errors
-
----
-
-## PERFORMANCE NOTES
-
-- **Token generation:** 1000+ tokens/sec
-- **Classification:** <10ms per request
-- **Database queries:** <5ms (SQLite on SSD)
-- **Alert dispatch:** Async (non-blocking)
-- **Memory:** ~50MB baseline, scales with active connections
-- **Scalability:** Single instance good for 1K+ users, use load balancer + replicas for 10K+
+### Docker Build
+```
+Multi-stage build (Alpine 3.20):
+- Stage 1: golang:1.22-alpine (build binary with CGO)
+- Stage 2: alpine:3.20 (runtime, includes ca-certificates for HTTPS)
+```
 
 ---
 
-## NEXT DEVELOPMENT PRIORITIES
+## Performance Tuning
 
-1. **ML-Enhanced Classifier** — Upgrade from 7D rule-based to neural network
-2. **Threat Intelligence Feed** — Auto-update IP reputation database
-3. **Advanced Correlation** — Link multiple attacks across users
-4. **Performance Optimization** — Redis caching for classifier
-5. **Multi-tenancy** — Support enterprise white-label deployments
-6. **Mobile App** — Native iOS/Android app for alerts
+### Database Indexes
+- `idx_tokens_user_id` — Fast token lookup by user
+- `idx_tokens_value` — Fast token validation
+- `idx_attackers_fingerprint` — Detect repeat attackers
+- `idx_events_user_id` — Dashboard queries
+- `idx_alert_configs_user_id` — Alert routing
+
+### Middleware Caching
+- JWT validation cached in `c.Locals()` per request
+- Fingerprint generation cached (immutable per request)
+- Alert configs cached in memory for 1 hour
+
+### Async Operations
+- Alert dispatch: Goroutine (non-blocking)
+- Event logging: Synchronous (critical path)
+- Attacker profiling: Async (background enrichment — future)
 
 ---
 
-**End of Internal Technical Documentation**
+## Security Considerations
+
+### Password Hashing
+- bcrypt with cost 12 (slow enough for security, fast enough for UX)
+- Never store plaintext passwords
+- Validate strength: 8+ chars, upper+lower+digit+special
+
+### JWT Security
+- HS256 (HMAC-SHA256) with 32-byte secret
+- 7-day expiration
+- Token stored in HTTP-only cookies (no JS access)
+- Rotation possible via device-trust system
+
+### HTTPS
+- All deployments use HTTPS (Railway enforces)
+- TLS 1.2+ only
+- Certificate auto-renewal (Railway handles)
+
+### Input Validation
+- Email: RFC 5322 regex
+- URLs: Must be https://, 10-2000 chars
+- Slack webhooks: Must contain `hooks.slack.com`
+- Passwords: 8+ chars, mixed case, special chars
+- Token types: Whitelist (url, api_key, document, dns, email)
+
+---
+
+## Known Limitations & TODOs
+
+### Phase 2 (Future Enhancements)
+- [ ] Autonomous response system (auto-generate decoys)
+- [ ] Threat intel feed (aggregate + anonymize + sell)
+- [ ] Industry vertical templates (Finance, Healthcare, E-commerce)
+- [ ] Web UI for token placement guidance
+- [ ] Advanced analytics dashboard (charts, heatmaps)
+- [ ] Machine learning model training (on attack patterns)
+- [ ] Managed Detection & Response (MDR) service
+- [ ] SIEM/Splunk integration
+- [ ] Compliance reporting automation (GDPR, HIPAA, PCI-DSS)
+
+### Known Issues
+- Email alerts not implemented (placeholder only)
+- DNS token detection requires external DNS server (not bundled)
+- No rate limiting on API endpoints (add for production)
+- No request logging/audit trail (add for compliance)
+- No two-factor authentication (MFA placeholder only)
+
+---
+
+## Deployment Checklist
+
+### Pre-Production
+- [ ] Set strong JWT_SECRET in .env
+- [ ] Enable HTTPS (Railway does this)
+- [ ] Configure database backup (Railway does this)
+- [ ] Set up monitoring/alerts (Railway console)
+- [ ] Test honeypot detection (webhook.site)
+- [ ] Load test with 100+ concurrent users (future)
+
+### Post-Deployment
+- [ ] Verify all 7 pages loading
+- [ ] Test auth flow (signup → login → dashboard)
+- [ ] Create sample token
+- [ ] Trigger honeypot (simulate attack)
+- [ ] Check alert dispatch
+- [ ] Monitor logs for errors
+- [ ] Check database size growth
+
+---
+
+## Troubleshooting
+
+### Docker Build Fails
+**Error:** `go.sum file not found`
+**Fix:** Add `GOSUMDB=off go mod tidy` to Dockerfile
+
+### Database Lock
+**Error:** `database is locked`
+**Fix:** Restart container (SQLite single-writer limitation)
+
+### JWT Token Expired
+**Error:** `401 Unauthorized`
+**Fix:** Login again (7-day expiration is by design)
+
+### Honeypot Not Detecting
+**Check:**
+- Is middleware registered BEFORE routes?
+- Is token value in database (not empty string)?
+- Is request actually sending the token?
+
+---
+
+## Monitoring & Logging
+
+### Key Metrics to Track
+- API response time (target: <100ms)
+- Database query time (target: <50ms)
+- Alert dispatch latency (target: <5s)
+- Honeypot detection accuracy (target: 100%)
+- False positive rate (target: 0%)
+
+### Log Levels
+- `ERROR` — Critical issues (unrecoverable)
+- `WARN` — Potential issues (recoverable)
+- `INFO` — Key events (auth, alerts, deployments)
+- `DEBUG` — Detailed flow (SQL queries, middleware)
+
+### Key Log Markers
+- `[TOKEN-DETECTION]` — Token found in request
+- `[HONEYPOT-DETECTED]` — Valid honeypot triggered
+- `[ATTACKER-CREATED]` — New attacker profile
+- `[EVENT-CREATED]` — Trigger event logged
+- `[ALERT-DISPATCH]` — Alert sent to config
+- `[WEBHOOK-SUCCESS]` — Alert delivered
+
+---
+
+## Cost Analysis (Railway Free Tier)
+
+| Resource | Limit | Used | Status |
+|----------|-------|------|--------|
+| Compute | 500 hours/month | ~30/month (dev only) | ✅ Unlimited |
+| Memory | 8GB | ~256MB | ✅ OK |
+| Disk | 1GB | ~50MB (DB + code) | ✅ OK |
+| Bandwidth | Unlimited | ~10MB/day (testing) | ✅ OK |
+| Cost | Free | $0 | ✅ Free |
+
+**Expected Cost at Scale:**
+- 100 active users: ~$50-100/month (Railway Pro tier)
+- 1000 active users: ~$500-1000/month
+- 10000 active users: Requires infrastructure upgrade
+
+---
+
+**Next Update:** After first customer deployment or major feature addition.
