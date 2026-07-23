@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── KAVACH Custom Base ─────────────────────────────────────────────────────── */
+@layer base {
+  body {
+    @apply bg-[#0A0A14] text-gray-300 antialiased;
+  }
+}
+
+/* ─── KAVACH Custom Components ───────────────────────────────────────────────── */
+@layer components {
+  .gradient-text {
+    background: linear-gradient(135deg, #7C3AED, #06B6D4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .kavach-card {
+    @apply bg-[#0D0B1A] border border-[rgba(124,58,237,0.08)] rounded-xl;
+  }
+  .kavach-card:hover {
+    @apply border-[rgba(124,58,237,0.15)];
+  }
+
+  .btn-kavach {
+    background: linear-gradient(135deg, #7C3AED, #06B6D4);
+    @apply text-white font-semibold rounded-lg px-5 py-2 transition-all;
+  }
+  .btn-kavach:hover {
+    @apply shadow-lg shadow-purple-600/25 -translate-y-0.5;
+  }
+}
+
+/* ─── KAVACH Custom Utilities ────────────────────────────────────────────────── */
+@layer utilities {
+  .animate-pulse-dot {
+    animation: pulse-dot 2s infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+}

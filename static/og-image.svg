@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#0A0A14"/>
+  <defs>
+    <linearGradient id="og-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#06B6D4"/>
+    </linearGradient>
+  </defs>
+  <!-- Background glow -->
+  <circle cx="600" cy="315" r="200" fill="#7C3AED" opacity="0.1" filter="url(#blur)"/>
+  <!-- Shield -->
+  <path d="M600 180 L680 220 V300 C680 360 640 400 600 420 C560 400 520 360 520 300 V220 Z" fill="url(#og-grad)" opacity="0.9"/>
+  <!-- K letter -->
+  <path d="M575 240 V360 M575 300 L625 240 M590 300 L625 360" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Title -->
+  <text x="600" y="490" text-anchor="middle" fill="white" font-family="system-ui, sans-serif" font-size="48" font-weight="700">KAVACH</text>
+  <text x="600" y="535" text-anchor="middle" fill="#9CA3AF" font-family="system-ui, sans-serif" font-size="24">Armor that fights back</text>
+</svg>

@@ -2,35 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Prevent FOUC while Tailwind loads -->
+    <!-- Prevent FOUC while CSS loads -->
     <style>body{opacity:0;transition:opacity 0.1s}body.loaded{opacity:1}</style>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{.Title}} — Kavach</title>
-    
-    <!-- Tailwind CSS (CDN for dev, build for production) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        kavach: {
-                            dark: '#0A0A14',
-                            darker: '#0D0B1A',
-                            surface: '#12101F',
-                            accent: '#7C3AED',
-                            'accent-hover': '#8B5CF6',
-                            cyan: '#06B6D4',
-                            border: '#1E1A30',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
 
-    <!-- HTMX (dynamic UI without writing JavaScript) -->
-    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <!-- Favicon -->
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="/static/favicon.ico" sizes="32x32" type="image/x-icon">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="{{.Title}} — Kavach">
+    <meta property="og:description" content="Proactive security through deception. Deploy honeypot tokens to detect, profile, and neutralize attackers.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="/static/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="description" content="KAVACH — Security deception platform. Armor that fights back.">
+
+    <!-- Tailwind CSS (statically built) -->
+    <link rel="stylesheet" href="/static/css/tailwind.css">
+
+    <!-- HTMX (version-locked with integrity) -->
+    <script src="/static/js/htmx.min.js"></script>
 
     <!-- Custom styles -->
     <style>
@@ -163,8 +156,8 @@
 <body class="text-gray-300 min-h-screen">
 
     <!-- Mobile fixed header bar -->
-    <header id="mobile-header" class="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center gap-3 px-4 py-3 bg-kavach-darker/95 backdrop-blur-md border-b border-kavach-border">
-        <button id="sidebar-toggle" class="w-9 h-9 flex items-center justify-center rounded-lg bg-kavach-dark border border-kavach-border text-gray-400 hover:text-white shrink-0">
+    <header id="mobile-header" class="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center gap-3 px-4 py-3 bg-[#0D0B1A]/95 backdrop-blur-md border-b border-[#1E1A30]">
+        <button id="sidebar-toggle" class="w-9 h-9 flex items-center justify-center rounded-lg bg-[#0A0A14] border border-[#1E1A30] text-gray-400 hover:text-white shrink-0">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
             </svg>
@@ -177,9 +170,9 @@
     <div id="sidebar-overlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="sidebar bg-kavach-darker border-r border-kavach-border flex flex-col fixed h-full z-50">
+    <aside id="sidebar" class="sidebar bg-[#0D0B1A] border-r border-[#1E1A30] flex flex-col fixed h-full z-50">
         <!-- Logo — links to landing page -->
-        <a href="/" class="flex items-center gap-3 px-4 py-5 border-b border-kavach-border hover:bg-white/[0.02] transition">
+        <a href="/" class="flex items-center gap-3 px-4 py-5 border-b border-[#1E1A30] hover:bg-white/[0.02] transition">
             <span class="text-xl font-bold gradient-text shrink-0">⬡</span>
             <span class="logo-text">
                 <span class="text-lg font-bold gradient-text">Kavach</span>
@@ -223,9 +216,9 @@
         </nav>
 
         <!-- User info -->
-        <div class="px-4 py-4 border-t border-kavach-border">
+        <div class="px-4 py-4 border-t border-[#1E1A30]">
             <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-kavach-accent/20 flex items-center justify-center text-purple-400 text-xs font-bold shrink-0">PJ</div>
+                <div class="w-8 h-8 rounded-full bg-purple-600/20 flex items-center justify-center text-purple-400 text-xs font-bold shrink-0">PJ</div>
                 <div class="user-info">
                     <p class="text-sm text-gray-300 font-medium">Parth Jindal</p>
                     <p class="text-[10px] text-gray-500">Free Plan</p>

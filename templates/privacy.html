@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — Kavach</title>
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+    <meta property="og:title" content="Privacy Policy — Kavach">
+    <meta property="og:description" content="Kavach privacy policy — how we handle your data.">
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="/static/css/tailwind.css">
+</head>
+<body class="bg-[#0A0A14] text-gray-300 min-h-screen">
+    <div class="max-w-4xl mx-auto px-4 py-12">
+        <!-- Header -->
+        <div class="mb-12">
+            <a href="/" class="inline-block mb-8">
+                <span class="text-2xl font-bold gradient-text">⬡ Kavach</span>
+            </a>
+            <h1 class="text-4xl font-bold text-white mb-2">Privacy Policy</h1>
+            <p class="text-gray-500 text-sm">Last updated: July 23, 2026</p>
+        </div>
+
+        <!-- Content -->
+        <div class="space-y-8 text-gray-300 leading-relaxed">
+            <section>
+                <h2 class="text-xl font-semibold text-white mb-3">1. Introduction</h2>
+                <p>Kavach ("we", "our", or "us") is a security deception platform. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our service.</p>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-semibold text-white mb-3">2. Information We Collect</h2>
+                <p class="mb-2">We collect the following types of information:</p>
+                <ul class="list-disc list-inside space-y-1 text-gray-400">
+                    <li><strong class="text-gray-300">Account Information:</strong> Email address, full name, and hashed password when you create an account.</li>
+                    <li><strong class="text-gray-300">Honeypot Trigger Data:</strong> IP addresses, user agents, request headers, and access patterns of entities that interact with your deployed honeypot tokens.</li>
+                    <li><strong class="text-gray-300">Usage Data:</strong> Pages visited, features used, and timestamps for improving our service.</li>
+                    <li><strong class="text-gray-300">Device Information:</strong> Browser type, operating system, and device fingerprints for security classification purposes.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-semibold text-white mb-3">3. How We Use Your Information</h2>
+                <ul class="list-disc list-inside space-y-1 text-gray-400">
+                    <li>To provide and maintain the Kavach security deception service.</li>
+                    <li>To detect, classify, and profile potential attackers who trigger your honeypot tokens.</li>
+                    <li>To send you security alerts and notifications about detected threats.</li>
+                    <li>To authenticate your identity and secure your account.</li>
+                    <li>To improve our threat detection algorithms and classification models.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-semibold text-white mb-3">4. Data Security</h2>
+                <p>We implement industry-standard security measures including:</p>
+                <ul class="list-disc list-inside space-y-1 text-gray-400 mt-2">
+                    <li>Passwords are hashed using bcrypt with appropriate cost factors.</li>
+                    <li>All API communications are encrypted via TLS.</li>
+                    <li>JWT tokens expire after 7 days and are stored in HTTP-only cookies.</li>
+                    <li>Database access is restricted and encrypted at rest.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-semibold text-white mb-3">5. Data Retention</h2>
+                <p>We retain your account information for as long as your account is active. Attacker profile data and trigger event logs are retained for 90 days by default, unless you configure a different retention period in your settings.</p>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-semibold text-white mb-3">6. Third-Party Sharing</h2>
+                <p>We do not sell your personal information. We may share anonymized, aggregate threat intelligence data to improve collective security. If you configure webhook or Slack integrations, alert data is sent to those endpoints under your control.</p>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-semibold text-white mb-3">7. Your Rights</h2>
+                <p>You have the right to:</p>
+                <ul class="list-disc list-inside space-y-1 text-gray-400 mt-2">
+                    <li>Access the personal data we hold about you.</li>
+                    <li>Request correction of inaccurate data.</li>
+                    <li>Request deletion of your account and associated data.</li>
+                    <li>Export your data in a machine-readable format.</li>
+                    <li>Opt out of non-essential communications.</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-semibold text-white mb-3">8. Cookies</h2>
+                <p>We use a single essential cookie ("token") to maintain your authenticated session. We do not use third-party tracking cookies or analytics pixels.</p>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-semibold text-white mb-3">9. Changes to This Policy</h2>
+                <p>We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the new policy on this page and updating the "Last updated" date.</p>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-semibold text-white mb-3">10. Contact Us</h2>
+                <p>If you have questions about this Privacy Policy, please contact us at <a href="mailto:privacy@kavach.security" class="text-purple-400 hover:text-purple-300">privacy@kavach.security</a>.</p>
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-12 pt-8 border-t border-[#1E1A30] text-center text-sm text-gray-500">
+            <a href="/" class="hover:text-gray-400">Home</a> · 
+            <a href="/terms" class="hover:text-gray-400">Terms of Service</a> · 
+            <a href="/support" class="hover:text-gray-400">Support</a>
+        </div>
+    </div>
+</body>
+</html>

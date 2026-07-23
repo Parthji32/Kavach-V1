@@ -1,46 +1,29 @@
-# Environment variables
-.env
-.env.local
-.env.*.local
+# Dependencies
+node_modules/
+package-lock.json
 
-# Build artifacts
+# Build outputs
+server.exe
+kavach
 *.exe
-*.dll
-*.so
-*.dylib
-server
-proxy
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db
-.env.prod
-
-# Local data
-data/
+# Database
 *.db
-*.db-shm
-*.db-wal
+*.db-journal
+
+# Environment
+.env
 
 # Logs
 logs/
 *.log
 
-# Dependencies
-vendor/
+# OS files
+.DS_Store
+Thumbs.db
 
-# Temporary files
-tmp/
-temp/
-*.tmp
-
-# Test artifacts
-*.test
-*.cover
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

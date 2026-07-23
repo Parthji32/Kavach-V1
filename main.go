@@ -43,10 +43,14 @@ func main() {
 
 	// Middleware
 	app.Use(logger.New())
+	corsOrigins := os.Getenv("CORS_ORIGINS")
+	if corsOrigins == "" {
+		corsOrigins = "http://localhost:3000,http://127.0.0.1:3000"
+	}
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "*",
+		AllowOrigins: corsOrigins,
 		AllowMethods: "GET,POST,PUT,DELETE,OPTIONS",
-		AllowHeaders: "Origin,Content-Type,Accept,Authorization",
+		AllowHeaders: "Origin,Content-Type,Accept,Authorization,HX-Request,HX-Target,HX-Trigger",
 	}))
 
 	// Serve static files
@@ -101,111 +105,64 @@ func main() {
 		return c.JSON(fiber.Map{"status": "ok"})
 	})
 
-	// Root endpoint
+	// ─── PUBLIC ROUTES (no auth required) ─────────────────────────────────────────
+
+	// Root / landing page
 	app.Get("/", func(c *fiber.Ctx) error {
-		// Serve landing page
 		landingHTML, err := os.ReadFile("templates/index.html")
 		if err == nil {
 			c.Set("Content-Type", "text/html; charset=utf-8")
 			return c.SendString(string(landingHTML))
 		}
-		// Fallback to JSON if HTML file not found
 		return c.JSON(fiber.Map{
 			"name":    "KAVACH",
 			"version": "1.0.0",
 			"status":  "running",
-			"docs":    "https://docs.kavach.security",
 		})
 	})
 
-	// Page routes
+	// Auth pages (public)
 	app.Get("/login", handlers.LoginPage)
 	app.Get("/signup", handlers.SignupPage)
-	app.Get("/products", func(c *fiber.Ctx) error {
-		html, err := os.ReadFile("templates/products.html")
-		if err != nil {
-			return c.Status(500).SendString("Page not found")
-		}
-		c.Set("Content-Type", "text/html; charset=utf-8")
-		return c.SendString(string(html))
-	})
-	app.Get("/docs", func(c *fiber.Ctx) error {
-		html, err := os.ReadFile("templates/docs.html")
-		if err != nil {
-			return c.Status(500).SendString("Page not found")
-		}
-		c.Set("Content-Type", "text/html; charset=utf-8")
-		return c.SendString(string(html))
-	})
-	app.Get("/vision", func(c *fiber.Ctx) error {
-		html, err := os.ReadFile("templates/vision.html")
-		if err != nil {
-			return c.Status(500).SendString("Page not found")
-		}
-		c.Set("Content-Type", "text/html; charset=utf-8")
-		return c.SendString(string(html))
-	})
+
+	// Marketing pages (public)
+	app.Get("/products", serveTemplate("templates/products.html"))
+	app.Get("/docs", serveTemplate("templates/docs.html"))
+	app.Get("/vision", serveTemplate("templates/vision.html"))
+	app.Get("/how-it-works", serveTemplate("templates/how-it-works.html"))
+	app.Get("/pricing", serveTemplate("templates/pricing.html"))
+	app.Get("/use-cases", serveTemplate("templates/use-cases.html"))
+	app.Get("/faq", serveTemplate("templates/faq.html"))
+	app.Get("/support", serveTemplate("templates/support.html"))
 	app.Get("/landing", handlers.LandingPage)
-	app.Get("/app", handlers.DashboardPage)
-	app.Get("/tokens", handlers.TokensPage)
-	app.Get("/tokens/new", handlers.NewTokenPage)
-	app.Get("/tokens/:tokenID", handlers.TokenDetailPage)
-	app.Get("/attackers", handlers.AttackersPage)
-	app.Get("/attackers/:attackerID", handlers.AttackerDetailPage)
-	app.Get("/alerts", handlers.AlertsPage)
-	app.Get("/integrations", handlers.IntegrationsPage)
-	app.Get("/settings", handlers.SettingsPage)
-	app.Get("/profile", handlers.ProfilePage)
 
-	// New website pages
-	app.Get("/how-it-works", func(c *fiber.Ctx) error {
-		html, err := os.ReadFile("templates/how-it-works.html")
-		if err != nil {
-			return c.Status(500).SendString("Page not found")
-		}
-		c.Set("Content-Type", "text/html; charset=utf-8")
-		return c.SendString(string(html))
-	})
-	app.Get("/pricing", func(c *fiber.Ctx) error {
-		html, err := os.ReadFile("templates/pricing.html")
-		if err != nil {
-			return c.Status(500).SendString("Page not found")
-		}
-		c.Set("Content-Type", "text/html; charset=utf-8")
-		return c.SendString(string(html))
-	})
-	app.Get("/use-cases", func(c *fiber.Ctx) error {
-		html, err := os.ReadFile("templates/use-cases.html")
-		if err != nil {
-			return c.Status(500).SendString("Page not found")
-		}
-		c.Set("Content-Type", "text/html; charset=utf-8")
-		return c.SendString(string(html))
-	})
-	app.Get("/faq", func(c *fiber.Ctx) error {
-		html, err := os.ReadFile("templates/faq.html")
-		if err != nil {
-			return c.Status(500).SendString("Page not found")
-		}
-		c.Set("Content-Type", "text/html; charset=utf-8")
-		return c.SendString(string(html))
-	})
-	app.Get("/support", func(c *fiber.Ctx) error {
-		html, err := os.ReadFile("templates/support.html")
-		if err != nil {
-			return c.Status(500).SendString("Page not found")
-		}
-		c.Set("Content-Type", "text/html; charset=utf-8")
-		return c.SendString(string(html))
-	})
+	// Legal pages (public)
+	app.Get("/privacy", serveTemplate("templates/privacy.html"))
+	app.Get("/terms", serveTemplate("templates/terms.html"))
 
-	// Auth routes
+	// ─── AUTH API ROUTES (public) ─────────────────────────────────────────────────
+
 	authGroup := app.Group("/api/auth")
 	authGroup.Post("/register", handlers.Register)
 	authGroup.Post("/login", handlers.Login)
 	authGroup.Post("/trust-device", handlers.TrustDevice)
 
-	// Protected API routes
+	// ─── PROTECTED PAGE ROUTES (JWT via cookie required) ──────────────────────────
+
+	pages := app.Group("", middleware.JWTAuthPage)
+	pages.Get("/app", handlers.DashboardPage)
+	pages.Get("/tokens", handlers.TokensPage)
+	pages.Get("/tokens/new", handlers.NewTokenPage)
+	pages.Get("/tokens/:tokenID", handlers.TokenDetailPage)
+	pages.Get("/attackers", handlers.AttackersPage)
+	pages.Get("/attackers/:attackerID", handlers.AttackerDetailPage)
+	pages.Get("/alerts", handlers.AlertsPage)
+	pages.Get("/integrations", handlers.IntegrationsPage)
+	pages.Get("/settings", handlers.SettingsPage)
+	pages.Get("/profile", handlers.ProfilePage)
+
+	// ─── PROTECTED API ROUTES (JWT via header or cookie) ──────────────────────────
+
 	apiGroup := app.Group("/api")
 	apiGroup.Use(middleware.JWTAuth)
 
@@ -231,11 +188,12 @@ func main() {
 	alertGroup.Get("/config", handlers.ListAlertConfigs)
 	alertGroup.Delete("/config/:configID", handlers.DeleteAlertConfig)
 
-	// Proxy routes
-	app.Post("/api/proxy/setup", handlers.ProxySetup)
-	app.All("/proxy/*", handlers.ProxyHandler)
+	// Proxy routes (PROTECTED)
+	apiGroup.Post("/proxy/setup", handlers.ProxySetup)
+	app.All("/proxy/*", middleware.JWTAuth, handlers.ProxyHandler)
 
-	// Start server
+	// ─── START SERVER ─────────────────────────────────────────────────────────────
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "3000"
@@ -244,10 +202,22 @@ func main() {
 	log.Printf("\n🚀 KAVACH Server Starting\n")
 	log.Printf("📍 Server: http://localhost:%s\n", port)
 	log.Printf("📊 Dashboard: http://localhost:%s/app\n", port)
-	log.Printf("📚 API Docs: https://docs.kavach.security\n\n", port)
+	log.Printf("📚 API Docs: https://docs.kavach.security\n\n")
 
 	if err := app.Listen(":" + port); err != nil {
 		log.Fatalf("❌ Server failed to start: %v", err)
+	}
+}
+
+// serveTemplate is a helper to serve static HTML template files
+func serveTemplate(path string) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		html, err := os.ReadFile(path)
+		if err != nil {
+			return c.Status(404).SendString("Page not found")
+		}
+		c.Set("Content-Type", "text/html; charset=utf-8")
+		return c.SendString(string(html))
 	}
 }
 
