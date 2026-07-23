@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>body { background: #0A0A14; color: #E0E7FF; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }</style>
+</head>
+<body>
+    <header class="fixed top-0 w-full z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="backdrop-blur-xl bg-black/30 rounded-full border border-purple-500/20 px-8 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-2 font-bold">🛡️ KAVACH</div>
+                <button class="px-6 py-2 bg-purple-600 rounded-lg">Start Free</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="min-h-screen pt-32 pb-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <h1 class="text-6xl font-bold text-center mb-4">Pricing</h1>
+            <p class="text-xl text-gray-400 text-center mb-12">Choose the plan that scales with your security needs</p>
+
+            <div class="grid md:grid-cols-3 gap-8 mb-20">
+                <!-- Starter -->
+                <div class="backdrop-blur-lg bg-purple-500/10 border border-purple-500/20 rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold mb-2">Starter</h3>
+                    <p class="text-gray-400 mb-6">$2,000/month</p>
+                    <button class="w-full py-3 bg-purple-600 rounded-lg mb-8 font-semibold">Start Free Trial</button>
+                    <div class="space-y-3 text-sm">
+                        <div>✅ 5 tokens</div>
+                        <div>✅ 1 user</div>
+                        <div>✅ Webhook alerts</div>
+                        <div>✅ Dashboard</div>
+                        <div>✅ 7-day history</div>
+                    </div>
+                </div>
+
+                <!-- Professional (Featured) -->
+                <div class="backdrop-blur-lg bg-purple-600/20 border border-purple-400 rounded-2xl p-8 relative">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-purple-600 px-4 py-1 rounded-full text-sm font-semibold">⭐ Most Popular</div>
+                    <h3 class="text-2xl font-bold mb-2">Professional</h3>
+                    <p class="text-gray-400 mb-6">$5,000/month</p>
+                    <button class="w-full py-3 bg-purple-600 rounded-lg mb-8 font-semibold">Start Free Trial</button>
+                    <div class="space-y-3 text-sm">
+                        <div>✅ Unlimited tokens</div>
+                        <div>✅ 3 users</div>
+                        <div>✅ Webhook + Slack + Email</div>
+                        <div>✅ 90-day history</div>
+                        <div>✅ Priority support</div>
+                    </div>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="backdrop-blur-lg bg-purple-500/10 border border-purple-500/20 rounded-2xl p-8">
+                    <h3 class="text-2xl font-bold mb-2">Enterprise</h3>
+                    <p class="text-gray-400 mb-6">Custom pricing</p>
+                    <button class="w-full py-3 border border-purple-500 rounded-lg mb-8 font-semibold">Talk to Sales</button>
+                    <div class="space-y-3 text-sm">
+                        <div>✅ Everything in Pro</div>
+                        <div>✅ Dedicated support</div>
+                        <div>✅ White-label dashboard</div>
+                        <div>✅ SLA 99.9%</div>
+                        <div>✅ Custom integrations</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROI Calculator -->
+            <div class="bg-purple-500/20 border border-purple-500 rounded-2xl p-12 max-w-2xl mx-auto text-center mb-20">
+                <h2 class="text-3xl font-bold mb-6">Your ROI</h2>
+                <div class="space-y-4 text-lg">
+                    <div>Average breach cost: <strong>$4.29M</strong></div>
+                    <div>Average detection time: <strong>197 days</strong></div>
+                    <div>KAVACH detection: <strong>&lt;24 hours</strong></div>
+                    <div class="text-2xl font-bold text-green-400 mt-6">Potential savings: $2M+</div>
+                    <div class="text-3xl font-bold text-green-400">Year 1 ROI: 8,500%</div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center">
+                <button class="px-8 py-4 bg-purple-600 rounded-lg font-semibold text-lg">Get Started Free</button>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

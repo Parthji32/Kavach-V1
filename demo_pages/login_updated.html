@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - KAVACH Deception Security Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #7C3AED;
+            --dark-bg: #0A0A14;
+            --dark-surface: #0D0B1A;
+        }
+        
+        body {
+            background: var(--dark-bg);
+            color: #E0E7FF;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 16px;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(120deg, #7C3AED, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glow-button {
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.4);
+            transition: all 0.3s;
+        }
+        
+        .glow-button:hover {
+            box-shadow: 0 0 30px rgba(124, 58, 237, 0.6);
+            transform: translateY(-2px);
+        }
+
+        input:focus {
+            border-color: #7C3AED;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header (matches homepage) -->
+    <header class="fixed top-0 w-full z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="backdrop-blur-xl bg-black/30 rounded-full border border-purple-500/20 px-8 py-4 flex items-center justify-between">
+                <a href="homepage_updated.html" class="flex items-center gap-2 font-bold text-lg no-underline text-white">
+                    <span class="text-2xl">🛡️</span>
+                    <span>KAVACH</span>
+                </a>
+                <nav class="hidden md:flex items-center gap-8 text-base">
+                    <a href="how-it-works_updated.html" class="hover:text-cyan-400 transition">How It Works</a>
+                    <a href="use-cases_updated.html" class="hover:text-cyan-400 transition">Use Cases</a>
+                    <a href="pricing_updated.html" class="hover:text-cyan-400 transition">Pricing</a>
+                    <a href="#" class="hover:text-cyan-400 transition">Docs</a>
+                    <a href="#" class="hover:text-cyan-400 transition">FAQ</a>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <button class="px-6 py-3 bg-purple-600 rounded-lg glow-button font-semibold text-base">Start Free Trial</button>
+                    <a href="login_updated.html" class="px-6 py-3 border border-purple-500/50 rounded-lg text-base no-underline text-white hover:bg-purple-500/10 transition">Login</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Content -->
+    <div class="min-h-screen flex items-center justify-center relative overflow-hidden pt-28 pb-32">
+        <!-- Background Orbs -->
+        <div class="absolute inset-0">
+            <div class="absolute top-20 left-10 w-96 h-96 bg-purple-600 rounded-full blur-3xl opacity-15"></div>
+            <div class="absolute bottom-20 right-10 w-80 h-80 bg-cyan-500 rounded-full blur-3xl opacity-10"></div>
+        </div>
+
+        <div class="w-full max-w-md px-6 relative z-10">
+            <!-- Logo Area -->
+            <div class="text-center mb-10">
+                <div class="text-5xl mb-4">🛡️</div>
+                <h1 style="font-size: 28px;" class="font-bold mb-2">Welcome Back</h1>
+                <p class="text-gray-400 text-base">Sign in to your KAVACH dashboard</p>
+            </div>
+
+            <!-- Login Card -->
+            <div class="backdrop-blur-xl bg-purple-500/10 border border-purple-500/20 rounded-2xl p-8">
+                <!-- Form -->
+                <form class="space-y-6">
+                    <!-- Email -->
+                    <div>
+                        <label class="block text-sm font-medium mb-2 text-gray-300">Email Address</label>
+                        <input 
+                            type="email" 
+                            placeholder="you@company.com"
+                            class="w-full px-4 py-3 bg-black/30 border border-purple-500/30 rounded-lg text-white placeholder-gray-500 text-base transition"
+                        >
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <label class="block text-sm font-medium mb-2 text-gray-300">Password</label>
+                        <div class="relative">
+                            <input 
+                                type="password" 
+                                placeholder="••••••••"
+                                class="w-full px-4 py-3 bg-black/30 border border-purple-500/30 rounded-lg text-white placeholder-gray-500 text-base transition"
+                            >
+                            <button type="button" class="absolute right-3 top-3.5 text-gray-400 hover:text-gray-300 text-sm">
+                                Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Remember Me & Forgot -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="remember" class="w-4 h-4 rounded border-purple-500/30 bg-black/30 text-purple-600 focus:ring-purple-500">
+                            <label for="remember" class="ml-2 text-sm text-gray-400">Remember me for 30 days</label>
+                        </div>
+                        <a href="#" class="text-sm text-purple-400 hover:text-purple-300 transition">Forgot password?</a>
+                    </div>
+
+                    <!-- Sign In Button -->
+                    <button 
+                        type="submit"
+                        class="w-full py-3.5 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold text-base transition glow-button"
+                    >
+                        Sign In
+                    </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="my-8 relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-purple-500/20"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-3 bg-[#0D0B1A] text-gray-500">or continue with</span>
+                    </div>
+                </div>
+
+                <!-- SSO Options -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="py-3 border border-purple-500/20 rounded-lg text-sm text-gray-300 hover:bg-purple-500/10 transition flex items-center justify-center gap-2">
+                        <span>🔑</span> SSO
+                    </button>
+                    <button class="py-3 border border-purple-500/20 rounded-lg text-sm text-gray-300 hover:bg-purple-500/10 transition flex items-center justify-center gap-2">
+                        <span>🔐</span> SAML
+                    </button>
+                </div>
+
+                <!-- Help Links -->
+                <div class="mt-6 text-center">
+                    <a href="#" class="text-sm text-gray-500 hover:text-gray-300 transition">Need help? Contact support</a>
+                </div>
+            </div>
+
+            <!-- Sign Up Link -->
+            <div class="text-center mt-8">
+                <p class="text-gray-400 text-base">
+                    Don't have an account?
+                    <a href="#" class="text-purple-400 hover:text-purple-300 font-semibold transition"> Start free trial</a>
+                </p>
+                <p class="text-gray-600 text-sm mt-2">5 tokens • 7 days • No credit card</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer (matches homepage) -->
+    <footer class="border-t border-purple-500/10 bg-black/50 py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-5 gap-12 mb-12">
+                <!-- Product -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Product</h4>
+                    <ul class="space-y-3 text-gray-400 text-base">
+                        <li><a href="how-it-works_updated.html" class="hover:text-cyan-400 transition">How It Works</a></li>
+                        <li><a href="pricing_updated.html" class="hover:text-cyan-400 transition">Pricing</a></li>
+                        <li><a href="use-cases_updated.html" class="hover:text-cyan-400 transition">Use Cases</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition">Security</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Support -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Support</h4>
+                    <ul class="space-y-3 text-gray-400 text-base">
+                        <li><a href="#" class="hover:text-cyan-400 transition">Documentation</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition">FAQ</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition">Help Center</a></li>
+                        <li><a href="mailto:support@kavach.local" class="hover:text-cyan-400 transition">Email Support</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Get in Touch</h4>
+                    <ul class="space-y-3 text-gray-400 text-base">
+                        <li><a href="#" class="hover:text-cyan-400 transition">Schedule Demo</a></li>
+                        <li>support@kavach.local</li>
+                        <li class="text-green-400">● All systems operational</li>
+                    </ul>
+                </div>
+                
+                <!-- Legal -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Legal</h4>
+                    <ul class="space-y-3 text-gray-400 text-base">
+                        <li><a href="#" class="hover:text-cyan-400 transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition">Security Policy</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Brand -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6">KAVACH</h4>
+                    <p class="text-gray-400 text-base mb-4">Deception Security Platform</p>
+                    <p class="text-gray-500 text-sm">Built with ❤️ by Parth Jindal</p>
+                </div>
+            </div>
+            
+            <div class="border-t border-purple-500/10 pt-8 text-center text-gray-500 text-base">
+                <p>© 2026 KAVACH Security. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

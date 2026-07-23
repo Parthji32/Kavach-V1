@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - KAVACH</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #e5e7eb;
+            background: linear-gradient(135deg, #0a0a14 0%, #12101f 50%, #1a1533 100%);
+            overflow-x: hidden;
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: #7c3aed;
+            top: -200px;
+            right: -100px;
+            animation: float 20s infinite;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: #06b6d4;
+            bottom: 100px;
+            left: 50%;
+            animation: float 25s infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(30px) translateX(20px); }
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 20, 0.7);
+            border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #e5e7eb;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #7c3aed;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .content {
+            margin-top: 80px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #9ca3af;
+            margin-bottom: 3rem;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        .support-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .support-card {
+            background: rgba(29, 26, 48, 0.6);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .support-card:hover {
+            background: rgba(29, 26, 48, 0.9);
+            border-color: rgba(124, 58, 237, 0.4);
+            box-shadow: 0 8px 32px rgba(124, 58, 237, 0.1);
+        }
+
+        .support-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .support-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+            color: #e5e7eb;
+        }
+
+        .support-card p {
+            font-size: 0.95rem;
+            color: #9ca3af;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .support-cta {
+            display: inline-block;
+            color: #7c3aed;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .support-cta:hover {
+            color: #8b5cf6;
+        }
+
+        .contact-form {
+            max-width: 700px;
+            margin: 3rem auto;
+            background: rgba(29, 26, 48, 0.6);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 1rem;
+            padding: 2.5rem;
+        }
+
+        .contact-form h2 {
+            font-size: 1.75rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            color: #e5e7eb;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: #e5e7eb;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(29, 26, 48, 0.4);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 0.5rem;
+            color: #e5e7eb;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #7c3aed;
+            background: rgba(29, 26, 48, 0.8);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-submit:hover {
+            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .response-times {
+            background: rgba(124, 58, 237, 0.05);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .response-times h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            color: #e5e7eb;
+            text-align: center;
+        }
+
+        .response-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .response-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(29, 26, 48, 0.4);
+            border-radius: 0.75rem;
+        }
+
+        .response-time {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #7c3aed;
+            margin-bottom: 0.5rem;
+        }
+
+        .response-label {
+            font-size: 0.9rem;
+            color: #9ca3af;
+            font-weight: 500;
+        }
+
+        footer {
+            max-width: 1200px;
+            margin: 6rem auto 0;
+            padding: 3rem 2rem 2rem;
+            border-top: 1px solid rgba(124, 58, 237, 0.1);
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .support-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <header>
+        <nav>
+            <div class="logo">⚔️ KAVACH</div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/faq">FAQ</a>
+                <a href="/support">Support</a>
+            </div>
+            <a href="/signup" class="btn-primary">Start Free</a>
+        </nav>
+    </header>
+
+    <div class="content">
+        <h1>We're Here to Help</h1>
+        <p class="subtitle">Get support through your preferred channel. Fast response times guaranteed.</p>
+
+        <div class="support-options">
+            <!-- Email Support -->
+            <div class="support-card">
+                <div class="support-icon">📧</div>
+                <h3>Email Support</h3>
+                <p>For non-urgent questions and general inquiries</p>
+                <a href="mailto:support@kavach.io" class="support-cta">support@kavach.io →</a>
+            </div>
+
+            <!-- Live Chat -->
+            <div class="support-card">
+                <div class="support-icon">💬</div>
+                <h3>Live Chat</h3>
+                <p>Get instant answers from our team during business hours</p>
+                <a href="#" onclick="alert('Live chat widget coming soon')" class="support-cta">Start Chat →</a>
+            </div>
+
+            <!-- Schedule a Call -->
+            <div class="support-card">
+                <div class="support-icon">📞</div>
+                <h3>Schedule a Call</h3>
+                <p>Book a call with our solutions architect for setup help</p>
+                <a href="#" onclick="alert('Scheduling portal opening soon')" class="support-cta">Schedule Call →</a>
+            </div>
+
+            <!-- Documentation -->
+            <div class="support-card">
+                <div class="support-icon">📚</div>
+                <h3>Documentation</h3>
+                <p>Browse guides, tutorials, and API reference</p>
+                <a href="/docs" class="support-cta">View Docs →</a>
+            </div>
+
+            <!-- API Reference -->
+            <div class="support-card">
+                <div class="support-icon">⚙️</div>
+                <h3>API Reference</h3>
+                <p>Integrate KAVACH with your tools and workflows</p>
+                <a href="/api-docs" class="support-cta">API Docs →</a>
+            </div>
+
+            <!-- Community -->
+            <div class="support-card">
+                <div class="support-icon">👥</div>
+                <h3>Community</h3>
+                <p>Connect with other KAVACH users and share knowledge</p>
+                <a href="#" onclick="alert('Community forum coming soon')" class="support-cta">Join Forum →</a>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-form">
+            <h2>Send us a message</h2>
+            <form onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="company">Company</label>
+                    <input type="text" id="company" name="company">
+                </div>
+
+                <div class="form-group">
+                    <label for="topic">Topic</label>
+                    <select id="topic" name="topic" required>
+                        <option value="">Select a topic...</option>
+                        <option value="setup">Setup & Installation</option>
+                        <option value="troubleshooting">Troubleshooting</option>
+                        <option value="billing">Billing & Pricing</option>
+                        <option value="security">Security & Compliance</option>
+                        <option value="integration">Integration Help</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required placeholder="Describe your issue or question..."></textarea>
+                </div>
+
+                <button type="submit" class="form-submit">Send Message</button>
+            </form>
+        </div>
+
+        <!-- Response Times -->
+        <div class="response-times">
+            <h3>Support Response Times</h3>
+            <div class="response-grid">
+                <div class="response-item">
+                    <div class="response-time">< 2h</div>
+                    <div class="response-label">Email Response</div>
+                </div>
+                <div class="response-item">
+                    <div class="response-time">< 1h</div>
+                    <div class="response-label">Chat Response</div>
+                </div>
+                <div class="response-item">
+                    <div class="response-time">24h</div>
+                    <div class="response-label">Phone Support</div>
+                </div>
+                <div class="response-item">
+                    <div class="response-time">Instant</div>
+                    <div class="response-label">Documentation</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 KAVACH. | <a href="/" style="color: #7c3aed; text-decoration: none;">Home</a> | <a href="/faq" style="color: #7c3aed; text-decoration: none;">FAQ</a> | <a href="mailto:support@kavach.io" style="color: #7c3aed; text-decoration: none;">Email</a></p>
+    </footer>
+
+    <script>
+        function handleSubmit(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We\'ll get back to you within 2 hours.');
+            e.target.reset();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Use Cases - KAVACH</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #e5e7eb;
+            background: linear-gradient(135deg, #0a0a14 0%, #12101f 50%, #1a1533 100%);
+            overflow-x: hidden;
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: #7c3aed;
+            top: -200px;
+            right: -100px;
+            animation: float 20s infinite;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: #06b6d4;
+            bottom: 100px;
+            left: 50%;
+            animation: float 25s infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(30px) translateX(20px); }
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 20, 0.7);
+            border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #e5e7eb;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #7c3aed;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .content {
+            margin-top: 80px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #9ca3af;
+            margin-bottom: 3rem;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .use-case-card {
+            background: rgba(29, 26, 48, 0.6);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .use-case-card:hover {
+            background: rgba(29, 26, 48, 0.9);
+            border-color: rgba(124, 58, 237, 0.4);
+            box-shadow: 0 8px 32px rgba(124, 58, 237, 0.1);
+        }
+
+        .use-case-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .use-case-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            color: #e5e7eb;
+        }
+
+        .problem {
+            background: rgba(239, 68, 68, 0.05);
+            border-left: 3px solid #ef4444;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .problem-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #ef4444;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .problem p {
+            font-size: 0.95rem;
+            color: #d1d5db;
+            line-height: 1.5;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .solution {
+            background: rgba(16, 185, 129, 0.05);
+            border-left: 3px solid #10b981;
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .solution-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #10b981;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .solution p {
+            font-size: 0.95rem;
+            color: #d1d5db;
+            line-height: 1.5;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(124, 58, 237, 0.1);
+        }
+
+        .metric {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #7c3aed;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+
+        .industries {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+
+        .industry-badge {
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .industry-badge:hover {
+            background: rgba(124, 58, 237, 0.2);
+            border-color: rgba(124, 58, 237, 0.5);
+        }
+
+        .industry-badge-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .industry-badge-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        footer {
+            max-width: 1200px;
+            margin: 6rem auto 0;
+            padding: 3rem 2rem 2rem;
+            border-top: 1px solid rgba(124, 58, 237, 0.1);
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .use-cases-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .industries {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <header>
+        <nav>
+            <div class="logo">⚔️ KAVACH</div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/how-it-works">How It Works</a>
+                <a href="/use-cases">Use Cases</a>
+            </div>
+            <a href="/signup" class="btn-primary">Start Free</a>
+        </nav>
+    </header>
+
+    <div class="content">
+        <h1>How Companies Use KAVACH</h1>
+        <p class="subtitle">Real scenarios where proactive deception stops attackers in their tracks.</p>
+
+        <div class="use-cases-grid">
+            <!-- Lateral Movement Detection -->
+            <div class="use-case-card">
+                <div class="use-case-icon">🔄</div>
+                <h3>Lateral Movement Detection</h3>
+                <div class="problem">
+                    <div class="problem-label">Problem</div>
+                    <p>Attacker gains access to one server. They pivot to find databases, credentials, and higher-value systems.</p>
+                </div>
+                <div class="solution">
+                    <div class="solution-label">KAVACH Solution</div>
+                    <p>Deploy honeypot credentials on every server. Attacker moves laterally → triggers honeypot → instantly detected and blocked.</p>
+                </div>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-value">72h</div>
+                        <div class="metric-label">Avg detection time cut</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">100%</div>
+                        <div class="metric-label">Catch rate</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Insider Threat Detection -->
+            <div class="use-case-card">
+                <div class="use-case-icon">👤</div>
+                <h3>Insider Threat Detection</h3>
+                <div class="problem">
+                    <div class="problem-label">Problem</div>
+                    <p>Malicious insider or compromised employee account accessing sensitive data. Hard to detect without monitoring every access.</p>
+                </div>
+                <div class="solution">
+                    <div class="solution-label">KAVACH Solution</div>
+                    <p>Honeypot files in document repositories. Insider accesses fake files → full profile captured with behavior and device fingerprint.</p>
+                </div>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-value">1st</div>
+                        <div class="metric-label">Access detected</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">0</div>
+                        <div class="metric-label">False positives</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Credential Stuffing Prevention -->
+            <div class="use-case-card">
+                <div class="use-case-icon">🔑</div>
+                <h3>Credential Stuffing Prevention</h3>
+                <div class="problem">
+                    <div class="problem-label">Problem</div>
+                    <p>Attackers use leaked credentials from other breaches to attack your application login endpoints.</p>
+                </div>
+                <div class="solution">
+                    <div class="solution-label">KAVACH Solution</div>
+                    <p>Deploy fake accounts and credentials. Attacker tries them → honeypot triggered → attacker fingerprinted and blocklisted.</p>
+                </div>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-value">47</div>
+                        <div class="metric-label">Attack attempts blocked</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">$2.3M</div>
+                        <div class="metric-label">Damage prevented</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Supply Chain Attack Detection -->
+            <div class="use-case-card">
+                <div class="use-case-icon">🔗</div>
+                <h3>Supply Chain Attack Detection</h3>
+                <div class="problem">
+                    <div class="problem-label">Problem</div>
+                    <p>Attacker compromises a vendor or third-party tool. They're now inside your infrastructure with legitimate access.</p>
+                </div>
+                <div class="solution">
+                    <div class="solution-label">KAVACH Solution</div>
+                    <p>Honeypots in third-party access points. Compromised vendor touches a fake credential → alert fires immediately.</p>
+                </div>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-value">15min</div>
+                        <div class="metric-label">Detection latency</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">0</div>
+                        <div class="metric-label">False alarms</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Compliance & Audit Evidence -->
+            <div class="use-case-card">
+                <div class="use-case-icon">✅</div>
+                <h3>Compliance & Audit Evidence</h3>
+                <div class="problem">
+                    <div class="problem-label">Problem</div>
+                    <p>GDPR, HIPAA, PCI-DSS require proof that attacks were detected and prevented. Manual logs aren't enough.</p>
+                </div>
+                <div class="solution">
+                    <div class="solution-label">KAVACH Solution</div>
+                    <p>Honeypot triggers create irrefutable proof of attack detection. Auto-generate compliance reports for auditors.</p>
+                </div>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-value">100%</div>
+                        <div class="metric-label">Audit pass rate</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">10h</div>
+                        <div class="metric-label">Reporting time cut</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Testing & Validation -->
+            <div class="use-case-card">
+                <div class="use-case-icon">🧪</div>
+                <h3>Security Testing & Validation</h3>
+                <div class="problem">
+                    <div class="problem-label">Problem</div>
+                    <p>Penetration testers manually check if your security controls work. Hard to scale beyond one-time tests.</p>
+                </div>
+                <div class="solution">
+                    <div class="solution-label">KAVACH Solution</div>
+                    <p>Honeypots act as continuous security tests. Every attack attempt validates your detection systems 24/7.</p>
+                </div>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-value">24/7</div>
+                        <div class="metric-label">Continuous testing</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">$X</div>
+                        <div class="metric-label">Annual pen test cost saved</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Industries -->
+        <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid rgba(124, 58, 237, 0.1);">
+            <h2 style="font-size: 1.75rem; margin-bottom: 2rem; text-align: center; font-weight: 700; color: #e5e7eb;">Industries Using KAVACH</h2>
+            <div class="industries">
+                <div class="industry-badge">
+                    <div class="industry-badge-icon">🏦</div>
+                    <div class="industry-badge-name">Financial Services</div>
+                </div>
+                <div class="industry-badge">
+                    <div class="industry-badge-icon">🏥</div>
+                    <div class="industry-badge-name">Healthcare</div>
+                </div>
+                <div class="industry-badge">
+                    <div class="industry-badge-icon">🛍️</div>
+                    <div class="industry-badge-name">E-Commerce</div>
+                </div>
+                <div class="industry-badge">
+                    <div class="industry-badge-icon">☁️</div>
+                    <div class="industry-badge-name">SaaS</div>
+                </div>
+                <div class="industry-badge">
+                    <div class="industry-badge-icon">🏭</div>
+                    <div class="industry-badge-name">Manufacturing</div>
+                </div>
+                <div class="industry-badge">
+                    <div class="industry-badge-icon">🎓</div>
+                    <div class="industry-badge-name">Education</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div style="background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(6, 182, 212, 0.05)); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 1.5rem; padding: 3rem 2rem; text-align: center; margin-top: 4rem;">
+            <h2 style="font-size: 2rem; margin-bottom: 1rem; font-weight: 700; background: linear-gradient(135deg, #ffffff, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Which Use Case Matches Your Needs?</h2>
+            <p style="font-size: 1.1rem; color: #d1d5db; margin-bottom: 2rem; font-weight: 400;">Start with a free trial. Deploy honeypots. Catch your first attack.</p>
+            <a href="/signup" class="btn-primary">Start Your Free Trial</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 KAVACH. | <a href="/" style="color: #7c3aed; text-decoration: none;">Back to Home</a> | <a href="/how-it-works" style="color: #7c3aed; text-decoration: none;">How It Works</a></p>
+    </footer>
+</body>
+</html>

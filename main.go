@@ -157,6 +157,48 @@ func main() {
 	app.Get("/settings", handlers.SettingsPage)
 	app.Get("/profile", handlers.ProfilePage)
 
+	// New website pages
+	app.Get("/how-it-works", func(c *fiber.Ctx) error {
+		html, err := os.ReadFile("templates/how-it-works.html")
+		if err != nil {
+			return c.Status(500).SendString("Page not found")
+		}
+		c.Set("Content-Type", "text/html; charset=utf-8")
+		return c.SendString(string(html))
+	})
+	app.Get("/pricing", func(c *fiber.Ctx) error {
+		html, err := os.ReadFile("templates/pricing.html")
+		if err != nil {
+			return c.Status(500).SendString("Page not found")
+		}
+		c.Set("Content-Type", "text/html; charset=utf-8")
+		return c.SendString(string(html))
+	})
+	app.Get("/use-cases", func(c *fiber.Ctx) error {
+		html, err := os.ReadFile("templates/use-cases.html")
+		if err != nil {
+			return c.Status(500).SendString("Page not found")
+		}
+		c.Set("Content-Type", "text/html; charset=utf-8")
+		return c.SendString(string(html))
+	})
+	app.Get("/faq", func(c *fiber.Ctx) error {
+		html, err := os.ReadFile("templates/faq.html")
+		if err != nil {
+			return c.Status(500).SendString("Page not found")
+		}
+		c.Set("Content-Type", "text/html; charset=utf-8")
+		return c.SendString(string(html))
+	})
+	app.Get("/support", func(c *fiber.Ctx) error {
+		html, err := os.ReadFile("templates/support.html")
+		if err != nil {
+			return c.Status(500).SendString("Page not found")
+		}
+		c.Set("Content-Type", "text/html; charset=utf-8")
+		return c.SendString(string(html))
+	})
+
 	// Auth routes
 	authGroup := app.Group("/api/auth")
 	authGroup.Post("/register", handlers.Register)

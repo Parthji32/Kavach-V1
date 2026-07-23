@@ -3,265 +3,682 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KAVACH — Honeypot Security Platform</title>
-    <link rel="stylesheet" href="/static/css/index.css">
+    <title>KAVACH - Proactive Security Through Deception</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #e5e7eb;
+            background: linear-gradient(135deg, #0a0a14 0%, #12101f 50%, #1a1533 100%);
+            overflow-x: hidden;
+        }
+
+        /* Animated background orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: #7c3aed;
+            top: -200px;
+            right: -100px;
+            animation: float 20s infinite;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: #06b6d4;
+            bottom: 100px;
+            left: 50%;
+            animation: float 25s infinite reverse;
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: #ec4899;
+            bottom: -100px;
+            right: 100px;
+            animation: float 22s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(30px) translateX(20px); }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 20, 0.7);
+            border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background: rgba(10, 10, 20, 0.95);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #e5e7eb;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #7c3aed;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid #7c3aed;
+            color: #7c3aed;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(124, 58, 237, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .hero-pill {
+            display: inline-block;
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #7c3aed;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            background: linear-gradient(135deg, #ffffff, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: #9ca3af;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+
+        /* Differentiators Section */
+        .differentiators {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .differentiators h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .diff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .diff-card {
+            background: rgba(29, 26, 48, 0.6);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .diff-card:hover {
+            background: rgba(29, 26, 48, 0.9);
+            border-color: rgba(124, 58, 237, 0.4);
+            box-shadow: 0 8px 32px rgba(124, 58, 237, 0.1);
+        }
+
+        .diff-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: #7c3aed;
+        }
+
+        .diff-card p {
+            font-size: 0.95rem;
+            color: #d1d5db;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .diff-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .how-it-works h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(29, 26, 48, 0.4);
+            border-radius: 1rem;
+            border: 1px solid rgba(124, 58, 237, 0.1);
+        }
+
+        .step-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #7c3aed;
+            margin-bottom: 1rem;
+        }
+
+        .step h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        .step p {
+            font-size: 0.95rem;
+            color: #9ca3af;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        /* Stats Section */
+        .stats {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 4rem 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stat {
+            padding: 2rem;
+            background: rgba(124, 58, 237, 0.05);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.95rem;
+            color: #9ca3af;
+            font-weight: 500;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            max-width: 1000px;
+            margin: 4rem auto;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(6, 182, 212, 0.05));
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 1.5rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            color: #d1d5db;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        /* Footer */
+        footer {
+            max-width: 1200px;
+            margin: 6rem auto 0;
+            padding: 4rem 2rem 2rem;
+            border-top: 1px solid rgba(124, 58, 237, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h4 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #e5e7eb;
+        }
+
+        .footer-section a {
+            display: block;
+            color: #9ca3af;
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+            font-weight: 400;
+        }
+
+        .footer-section a:hover {
+            color: #7c3aed;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(124, 58, 237, 0.1);
+            color: #6b7280;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #e5e7eb;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .cta-buttons {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .hero {
+                min-height: 80vh;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .diff-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="bg-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-    </div>
+    <!-- Background orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
 
     <!-- Header -->
-    <header id="site-header">
-        <a href="/" class="logo">
-            <div class="logo-icon">🛡️</div>
-            <span class="logo-text">KAVACH</span>
-        </a>
-        <nav class="nav">
-            <a href="#products">Products</a>
-            <a href="#vision">Vision</a>
-            <a href="/docs">Docs</a>
-            <a href="/profile">Account</a>
+    <header>
+        <nav>
+            <div class="logo">⚔️ KAVACH</div>
+            <div class="nav-links">
+                <a href="#how-it-works">How It Works</a>
+                <a href="#differentiators">Why KAVACH</a>
+                <a href="/pricing">Pricing</a>
+                <a href="/faq">FAQ</a>
+            </div>
+            <div class="cta-buttons">
+                <a href="/login" class="btn-secondary">Login</a>
+                <a href="/signup" class="btn-primary">Start Free</a>
+            </div>
+            <button class="mobile-menu-toggle">☰</button>
         </nav>
-        <button class="menu-toggle" id="menu-toggle" aria-label="Open navigation" aria-expanded="false">
-            <span></span><span></span><span></span>
-        </button>
-        <a href="/signup" class="cta-btn">Get Started</a>
     </header>
 
-    <div class="mobile-nav" id="mobile-nav">
-        <a href="#products">Products</a>
-        <a href="#vision">Vision</a>
-        <a href="/docs">Docs</a>
-        <a href="/signup">Get Started</a>
-    </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-pill">🎯 Catch Attackers the Moment They Move</div>
+            <h1>Proactive Security Through Deception</h1>
+            <p>Don't wait for attackers to breach your real systems. Deploy honeypots they'll inevitably trigger, capture their every move, and profile them like intelligence agencies do.</p>
+            <div class="hero-buttons">
+                <a href="/signup" class="btn-primary">Deploy Free →</a>
+                <a href="#how-it-works" class="btn-secondary">See How It Works</a>
+            </div>
+        </div>
+    </section>
 
-    <main>
-        <!-- Hero -->
-        <section class="hero">
-            <div class="flair">Building deception at scale</div>
-            <h1>
-                Catch attackers <span class="hero-highlight">in the act.</span>
-            </h1>
-            <p class="hero-subtext">
-                KAVACH builds deception security that turns attackers into data. Deploy honeypot tokens, get instant alerts, and gain complete visibility into threats before they become breaches.
-            </p>
-            <div class="hero-ctas">
-                <a href="/signup" class="btn-primary">Deploy Honeypots Free 🚀</a>
-                <a href="#products" class="btn-secondary">Watch Demo →</a>
+    <!-- Key Differentiators -->
+    <section class="differentiators" id="differentiators">
+        <h2>Why KAVACH Wins</h2>
+        <div class="diff-grid">
+            <div class="diff-card">
+                <div class="diff-icon">🎪</div>
+                <h3>Deception at Scale</h3>
+                <p>Deploy hundreds of fake tokens, APIs, and documents across your infrastructure. Attackers WILL trigger at least one. We guarantee it.</p>
             </div>
-        </section>
+            <div class="diff-card">
+                <div class="diff-icon">🔍</div>
+                <h3>Real-Time Attacker Profiling</h3>
+                <p>Get complete profiles: OS, browser, device, VPN type, TLS fingerprint, behavior patterns. Link multiple attacks to the same actor. Build threat intelligence.</p>
+            </div>
+            <div class="diff-card">
+                <div class="diff-icon">🚫</div>
+                <h3>Zero False Positives</h3>
+                <p>Every alert is a real threat. Honeypot = definite attack. No alert fatigue. No noise. Pure signal.</p>
+            </div>
+            <div class="diff-card">
+                <div class="diff-icon">🔐</div>
+                <h3>Reverse Proxy Layer</h3>
+                <p>Sits between internet and your app. Intercepts ALL traffic. Detects attacks before they reach your systems. No code changes needed.</p>
+            </div>
+            <div class="diff-card">
+                <div class="diff-icon">📊</div>
+                <h3>7-Dimensional ML Classifier</h3>
+                <p>IP reputation, request rate, payload analysis, headers, behavioral anomalies, geolocation, timing patterns. Production-grade attack detection.</p>
+            </div>
+            <div class="diff-card">
+                <div class="diff-icon">⚡</div>
+                <h3>One-Click Deployment</h3>
+                <p>Docker container. 5 minutes to production. Self-hosted. No complex setup. Works on your infrastructure.</p>
+            </div>
+        </div>
+    </section>
 
-        <!-- Metrics -->
-        <section class="metrics reveal">
-            <div class="metric">
-                <div class="metric-value" data-count="3847">3,847</div>
-                <div class="metric-label">Attacks Blocked</div>
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <h2>How It Works</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Deploy Honeypots</h3>
+                <p>Create fake tokens (API keys, URLs, documents, DNS, email). Place them across your infrastructure.</p>
             </div>
-            <div class="metric">
-                <div class="metric-value" data-count="342">342</div>
-                <div class="metric-label">Honeypots Active</div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Wait for Attackers</h3>
+                <p>Attackers probe for credentials. They find your honeypots. They have no idea they're fake.</p>
             </div>
-            <div class="metric">
-                <div class="metric-value">99.8%</div>
-                <div class="metric-label">Detection Rate</div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Detect & Profile</h3>
+                <p>Token accessed = instant detection. We capture everything: IP, browser, device, behavior. Full attacker profile built.</p>
             </div>
-            <div class="metric">
-                <div class="metric-value">24h</div>
-                <div class="metric-label">System Uptime</div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Real-Time Alerts</h3>
+                <p>Webhook, Slack, email. Immediate notifications. See attacks as they happen. Zero delay.</p>
             </div>
-        </section>
+            <div class="step">
+                <div class="step-number">5</div>
+                <h3>Build Intelligence</h3>
+                <p>Link attacks by fingerprint. Identify repeat attackers. Predict next move. Know your enemy.</p>
+            </div>
+            <div class="step">
+                <div class="step-number">6</div>
+                <h3>Block & Respond</h3>
+                <p>Risk score > 75? Blocked automatically. Attackers get HTTP 403. End of story.</p>
+            </div>
+        </div>
+    </section>
 
-        <!-- Products -->
-        <section class="products" id="products">
-            <h2 style="font-size: 1.8rem; text-align: center; margin-bottom: 2.5rem;">Our Platform</h2>
-            <div class="products-grid">
-                <!-- Kavach v1 -->
-                <div class="product-card reveal" id="kavach">
-                    <span class="product-status">LIVE</span>
-                    <h3>Kavach v1</h3>
-                    <p>Multi-format canary tokens with real-time attacker fingerprinting.</p>
-                    <ul class="product-features">
-                        <li>5 token types (URL, Document, API Key, DNS, Email)</li>
-                        <li>Real-time attacker fingerprinting</li>
-                        <li>Slack, Email, Webhook alerts</li>
-                        <li>Correlation analysis</li>
-                    </ul>
-                    <a href="/products.html" class="product-link">Learn More <span class="arrow">→</span></a>
-                </div>
+    <!-- Stats -->
+    <section class="stats">
+        <div class="stat">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Attack Detection Rate</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">0</div>
+            <div class="stat-label">False Positives</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">5 min</div>
+            <div class="stat-label">Deployment Time</div>
+        </div>
+        <div class="stat">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Real-Time Monitoring</div>
+        </div>
+    </section>
 
-                <!-- Kavach v2 -->
-                <div class="product-card reveal">
-                    <span class="product-status ongoing">IN DEVELOPMENT</span>
-                    <h3>Kavach v2</h3>
-                    <p>ML-powered invisible reverse proxy with 5D traffic classification.</p>
-                    <ul class="product-features">
-                        <li>5-dimensional traffic classifier (0-100 risk score)</li>
-                        <li>Automatic routing (safe/suspicious/attacker)</li>
-                        <li>Full-stack honeypot (website, API, services)</li>
-                        <li>Docker Compose ready</li>
-                    </ul>
-                    <a href="/products.html" class="product-link">Learn More <span class="arrow">→</span></a>
-                </div>
-
-                <!-- Dashboard -->
-                <div class="product-card reveal">
-                    <span class="product-status">COMING SOON</span>
-                    <h3>Control Center</h3>
-                    <p>Centralized dashboard for managing honeypots and threat intelligence.</p>
-                    <ul class="product-features">
-                        <li>Real-time attack feed</li>
-                        <li>Honeypot topology visualization</li>
-                        <li>Attacker profiles & TTPs</li>
-                        <li>One-click threat response</li>
-                    </ul>
-                    <a href="/dashboard.html" class="product-link">View Demo <span class="arrow">→</span></a>
-                </div>
-            </div>
-        </section>
-    </main>
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Ready to Catch Attackers?</h2>
+        <p>Deploy KAVACH in 5 minutes. Start detecting attacks immediately. No credit card required.</p>
+        <a href="/signup" class="btn-primary">Start Your Free Trial →</a>
+    </section>
 
     <!-- Footer -->
     <footer>
-        <div class="footer-container">
-            <div class="footer-col">
+        <div class="footer-grid">
+            <div class="footer-section">
                 <h4>Product</h4>
-                <a href="/products.html">Features</a>
-                <a href="/docs.html">Documentation</a>
-                <a href="/about.html">About</a>
-                <a href="/faq.html">FAQ</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="/pricing">Pricing</a>
+                <a href="#docs">Documentation</a>
+                <a href="#status">Status</a>
             </div>
-            <div class="footer-col">
+            <div class="footer-section">
                 <h4>Company</h4>
-                <a href="/about.html">About</a>
-                <a href="/contact.html">Contact</a>
-                <a href="https://github.com/Parthji32/ps-security-platform">GitHub</a>
+                <a href="#about">About</a>
+                <a href="#blog">Blog</a>
+                <a href="/support">Contact</a>
+                <a href="#careers">Careers</a>
             </div>
-            <div class="footer-col">
-                <h4>Legal</h4>
-                <a href="/privacy.html">Privacy Policy</a>
-                <a href="/terms.html">Terms of Service</a>
-                <a href="/security.html">Security</a>
+            <div class="footer-section">
+                <h4>Security</h4>
+                <a href="#security">Security</a>
+                <a href="#privacy">Privacy</a>
+                <a href="#terms">Terms</a>
+                <a href="#compliance">Compliance</a>
             </div>
-            <div class="footer-col">
+            <div class="footer-section">
                 <h4>Resources</h4>
-                <a href="/docs.html">Getting Started</a>
-                <a href="/faq.html">FAQ</a>
-                <a href="/contact.html">Support</a>
+                <a href="/faq">FAQ</a>
+                <a href="#api">API Reference</a>
+                <a href="#community">Community</a>
+                <a href="/support">Support</a>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 PS Security Platform. Built with deception. Protect with intelligence.</p>
+            <p>&copy; 2026 KAVACH. All rights reserved. | Catch attackers. Predict threats. Win.</p>
         </div>
     </footer>
 
     <script>
-        // Header pill: compact/elevated on scroll
-        (function () {
-            var header = document.getElementById('site-header');
-            function onScroll() {
-                if (window.scrollY > 30) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
+        // Header scroll effect
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
                 }
-            }
-            window.addEventListener('scroll', onScroll, { passive: true });
-            onScroll();
-        })();
-
-        // Mobile menu toggle
-        (function () {
-            var toggle = document.getElementById('menu-toggle');
-            var mobileNav = document.getElementById('mobile-nav');
-            if (!toggle || !mobileNav) return;
-
-            toggle.addEventListener('click', function () {
-                var isOpen = toggle.classList.toggle('active');
-                mobileNav.classList.toggle('active', isOpen);
-                toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-                document.body.classList.toggle('menu-open', isOpen);
             });
-
-            mobileNav.querySelectorAll('a').forEach(function (link) {
-                link.addEventListener('click', function () {
-                    toggle.classList.remove('active');
-                    mobileNav.classList.remove('active');
-                    toggle.setAttribute('aria-expanded', 'false');
-                    document.body.classList.remove('menu-open');
-                });
-            });
-        })();
-
-        // Active link highlighting on scroll
-        (function () {
-            var links = Array.from(document.querySelectorAll('.nav a, .mobile-nav a'));
-            var sections = Array.from(document.querySelectorAll('main section[id]'));
-            if (!links.length || !sections.length) return;
-
-            function setActiveLink() {
-                var scrollPosition = window.scrollY + 140;
-                sections.forEach(function (section) {
-                    if (scrollPosition >= section.offsetTop && scrollPosition < section.offsetTop + section.offsetHeight) {
-                        links.forEach(function (link) {
-                            link.classList.toggle('active', link.getAttribute('href') === '#' + section.id);
-                        });
-                    }
-                });
-            }
-            window.addEventListener('scroll', setActiveLink, { passive: true });
-            setActiveLink();
-        })();
-
-        // Scroll-reveal for metrics + product cards
-        (function () {
-            var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            var items = document.querySelectorAll('.reveal');
-            if (reduce || !('IntersectionObserver' in window)) {
-                items.forEach(function (el) { el.classList.add('visible'); });
-                return;
-            }
-            var io = new IntersectionObserver(function (entries) {
-                entries.forEach(function (entry, i) {
-                    if (entry.isIntersecting) {
-                        var el = entry.target;
-                        setTimeout(function () { el.classList.add('visible'); }, i * 90);
-                        io.unobserve(el);
-                    }
-                });
-            }, { threshold: 0.15 });
-            items.forEach(function (el) { io.observe(el); });
-        })();
-
-        // Count-up animation for numeric metrics
-        (function () {
-            var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            var counters = document.querySelectorAll('.metric-value[data-count]');
-            if (reduce || !('IntersectionObserver' in window)) return;
-            var io = new IntersectionObserver(function (entries) {
-                entries.forEach(function (entry) {
-                    if (!entry.isIntersecting) return;
-                    var el = entry.target;
-                    var target = parseInt(el.getAttribute('data-count'), 10);
-                    var start = null;
-                    var duration = 1400;
-                    function step(ts) {
-                        if (!start) start = ts;
-                        var progress = Math.min((ts - start) / duration, 1);
-                        var eased = 1 - Math.pow(1 - progress, 3);
-                        el.textContent = Math.floor(eased * target).toLocaleString('en-US');
-                        if (progress < 1) requestAnimationFrame(step);
-                        else el.textContent = target.toLocaleString('en-US');
-                    }
-                    requestAnimationFrame(step);
-                    io.unobserve(el);
-                });
-            }, { threshold: 0.5 });
-            counters.forEach(function (el) { io.observe(el); });
-        })();
-
-    <script src="/static/js/animations.js"></script>
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How KAVACH Works - Real-Time Attack Detection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #e5e7eb;
+            background: linear-gradient(135deg, #0a0a14 0%, #12101f 50%, #1a1533 100%);
+            overflow-x: hidden;
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: #7c3aed;
+            top: -200px;
+            right: -100px;
+            animation: float 20s infinite;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: #06b6d4;
+            bottom: 100px;
+            left: 50%;
+            animation: float 25s infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(30px) translateX(20px); }
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 20, 0.7);
+            border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #e5e7eb;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #7c3aed;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .content {
+            margin-top: 80px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #9ca3af;
+            margin-bottom: 3rem;
+            font-weight: 400;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            color: #e5e7eb;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: #7c3aed;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .token-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .token-card {
+            background: rgba(29, 26, 48, 0.6);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .token-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            color: #7c3aed;
+            font-weight: 600;
+        }
+
+        .token-card p {
+            font-size: 0.95rem;
+            color: #9ca3af;
+        }
+
+        .example {
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 3px solid #7c3aed;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0.5rem;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+        }
+
+        .classifier {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .classifier-dim {
+            background: rgba(124, 58, 237, 0.05);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .classifier-dim .weight {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #7c3aed;
+            margin-bottom: 0.5rem;
+        }
+
+        .classifier-dim .label {
+            font-size: 0.85rem;
+            color: #9ca3af;
+            font-weight: 500;
+        }
+
+        footer {
+            max-width: 1200px;
+            margin: 6rem auto 0;
+            padding: 3rem 2rem 2rem;
+            border-top: 1px solid rgba(124, 58, 237, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .token-types {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <header>
+        <nav>
+            <div class="logo">⚔️ KAVACH</div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/how-it-works">How It Works</a>
+                <a href="/use-cases">Use Cases</a>
+                <a href="/pricing">Pricing</a>
+            </div>
+            <a href="/signup" class="btn-primary">Start Free</a>
+        </nav>
+    </header>
+
+    <div class="content">
+        <h1>How KAVACH Works</h1>
+        <p class="subtitle">A complete system for proactive threat detection through intelligent honeypots and behavioral analysis.</p>
+
+        <!-- 5 Token Types Section -->
+        <div class="section">
+            <h2>Five Honeypot Token Types</h2>
+            <p>Deploy different types of fake credentials throughout your infrastructure. Each one is a trigger point for attackers.</p>
+
+            <div class="token-types">
+                <div class="token-card">
+                    <h4>🔑 API Key</h4>
+                    <p>Fake API credentials that look real. Attackers will try to use them.</p>
+                </div>
+                <div class="token-card">
+                    <h4>🌐 URL Token</h4>
+                    <p>Honeypot URLs embedded in code repos, internal docs, or backups.</p>
+                </div>
+                <div class="token-card">
+                    <h4>📄 Document</h4>
+                    <p>Fake files with tracking tokens. Watermarked to catch leaks.</p>
+                </div>
+                <div class="token-card">
+                    <h4>📧 Email Token</h4>
+                    <p>Honeypot email addresses in contact lists and mailing lists.</p>
+                </div>
+                <div class="token-card">
+                    <h4>🔗 DNS Token</h4>
+                    <p>Subdomains that trigger alerts when queried.</p>
+                </div>
+            </div>
+
+            <p><strong>Why this works:</strong> Attackers probe for credentials. They find your tokens. They have no idea they're fake until it's too late.</p>
+        </div>
+
+        <!-- 8 Placement Strategies -->
+        <div class="section">
+            <h2>Eight Placement Strategies</h2>
+            <h3>1. Git Repositories</h3>
+            <p>Commit fake API keys to public repos. Attackers will find them via GitHub dorking.</p>
+
+            <h3>2. Internal Documentation</h3>
+            <p>Plant tokens in wiki pages, runbooks, and internal knowledge bases.</p>
+
+            <h3>3. Environment Files</h3>
+            <p>Honeypot .env files on development machines and CI/CD systems.</p>
+
+            <h3>4. Database Backups</h3>
+            <p>Fake credentials in database dumps and backup files.</p>
+
+            <h3>5. Code Comments</h3>
+            <p>Tokens hidden in commented-out code that attackers might find during reconnaissance.</p>
+
+            <h3>6. Configuration Files</h3>
+            <p>Honeypots in nginx configs, Apache configs, and other server configurations.</p>
+
+            <h3>7. Email & Chat Histories</h3>
+            <p>Fake credentials referenced in email threads and Slack histories.</p>
+
+            <h3>8. User Profiles & Metadata</h3>
+            <p>Tokens embedded in user agent strings, comment threads, and metadata.</p>
+        </div>
+
+        <!-- 7D Classifier -->
+        <div class="section">
+            <h2>7-Dimensional Attack Classifier</h2>
+            <p>When a token is accessed, KAVACH analyzes the request across seven dimensions:</p>
+
+            <div class="classifier">
+                <div class="classifier-dim">
+                    <div class="weight">25%</div>
+                    <div class="label">IP Reputation</div>
+                </div>
+                <div class="classifier-dim">
+                    <div class="weight">15%</div>
+                    <div class="label">Request Rate</div>
+                </div>
+                <div class="classifier-dim">
+                    <div class="weight">15%</div>
+                    <div class="label">Payload Analysis</div>
+                </div>
+                <div class="classifier-dim">
+                    <div class="weight">12%</div>
+                    <div class="label">Header Fingerprint</div>
+                </div>
+                <div class="classifier-dim">
+                    <div class="weight">12%</div>
+                    <div class="label">Behavioral Anomaly</div>
+                </div>
+                <div class="classifier-dim">
+                    <div class="weight">12%</div>
+                    <div class="label">Geolocation</div>
+                </div>
+                <div class="classifier-dim">
+                    <div class="weight">9%</div>
+                    <div class="label">Timing Pattern</div>
+                </div>
+            </div>
+
+            <h3>Risk Scoring</h3>
+            <p>Each dimension contributes a score (0-100). The weighted sum determines the action:</p>
+
+            <ul style="margin: 1.5rem 0; margin-left: 2rem; color: #d1d5db;">
+                <li><strong>0-55:</strong> Allow (low risk)</li>
+                <li><strong>55-65:</strong> Flag (monitor)</li>
+                <li><strong>65-75:</strong> Challenge (require MFA)</li>
+                <li><strong>75+:</strong> Block (HTTP 403)</li>
+                <li><strong>Honeypot Token:</strong> Score 99 (immediate block + alert)</li>
+            </ul>
+        </div>
+
+        <!-- Risk Thresholds -->
+        <div class="section">
+            <h2>Risk Thresholds & Actions</h2>
+
+            <div class="example">
+Example Attack Flow:
+
+Request arrives → Token detected in URL param
+↓
+Extract fingerprint: IP + Browser + OS + Device
+↓
+Classify: IP Reputation (known bad: +30), Request Rate (DoS-like: +20), 
+Payload Analysis (SQLi: +25)
+↓
+Total Risk Score: 75
+↓
+Action: BLOCK → HTTP 403 + Alert sent
+↓
+Log: Attacker profile created, event recorded, 
+      webhook sent to your team
+            </div>
+
+            <h3>Real-Time Profiling</h3>
+            <p>Every attack triggers these steps:</p>
+            <ul style="margin: 1.5rem 0; margin-left: 2rem; color: #d1d5db;">
+                <li>Generate device fingerprint (MD5 of IP + User Agent + Language + Encoding)</li>
+                <li>Lookup or create attacker profile in database</li>
+                <li>Correlate with previous attacks by this fingerprint</li>
+                <li>Update threat score and behavior patterns</li>
+                <li>Send alert to configured channels (Slack, webhook, email)</li>
+                <li>Record full event with request details for forensics</li>
+            </ul>
+        </div>
+
+        <!-- Alert System -->
+        <div class="section">
+            <h2>Real-Time Alert System</h2>
+            <p>Alerts are sent through multiple channels:</p>
+
+            <div class="token-types">
+                <div class="token-card">
+                    <h4>🔗 Webhooks</h4>
+                    <p>HTTP POST with full attack details. For custom integrations.</p>
+                </div>
+                <div class="token-card">
+                    <h4>💬 Slack</h4>
+                    <p>Formatted blocks with risk level, attacker IP, token type.</p>
+                </div>
+                <div class="token-card">
+                    <h4>📧 Email</h4>
+                    <p>Executive summary with forensic details.</p>
+                </div>
+                <div class="token-card">
+                    <h4>📱 Push Notifications</h4>
+                    <p>Browser notifications for real-time alerts.</p>
+                </div>
+            </div>
+
+            <h3>Alert Payload Example</h3>
+            <div class="example">
+{
+  "event_type": "token_accessed",
+  "timestamp": "2026-07-23T10:45:30Z",
+  "token_id": "sk_8a6aa811c453",
+  "token_type": "api_key",
+  "attacker_ip": "192.168.1.105",
+  "risk_score": 95,
+  "risk_level": "critical",
+  "severity": "critical",
+  "message": "Honeypot API key accessed from unknown IP"
+}
+            </div>
+        </div>
+
+        <!-- Dashboard & Intelligence -->
+        <div class="section">
+            <h2>Dashboard & Intelligence</h2>
+            <p>See all attacks in real-time:</p>
+            <ul style="margin: 1.5rem 0; margin-left: 2rem; color: #d1d5db;">
+                <li><strong>Attack Timeline:</strong> Chronological view of all token triggers</li>
+                <li><strong>Attacker Profiles:</strong> Complete intelligence on unique attackers</li>
+                <li><strong>Risk Distribution:</strong> Charts showing attack patterns by IP, country, token type</li>
+                <li><strong>Threat Correlations:</strong> Link multiple attacks to same actor</li>
+                <li><strong>ROI Metrics:</strong> "You prevented $X in potential damages"</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2026 KAVACH. Stop reacting. Start detecting. | <a href="/" style="color: #7c3aed; text-decoration: none;">Back to Home</a></p>
+        </div>
+    </footer>
+</body>
+</html>

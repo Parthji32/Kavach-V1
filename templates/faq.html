@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - KAVACH</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #e5e7eb;
+            background: linear-gradient(135deg, #0a0a14 0%, #12101f 50%, #1a1533 100%);
+            overflow-x: hidden;
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: #7c3aed;
+            top: -200px;
+            right: -100px;
+            animation: float 20s infinite;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: #06b6d4;
+            bottom: 100px;
+            left: 50%;
+            animation: float 25s infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            50% { transform: translateY(30px) translateX(20px); }
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 20, 0.7);
+            border-bottom: 1px solid rgba(124, 58, 237, 0.1);
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #e5e7eb;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #7c3aed;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .content {
+            margin-top: 80px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #9ca3af;
+            margin-bottom: 3rem;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        .search-box {
+            background: rgba(29, 26, 48, 0.6);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 3rem;
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .search-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #e5e7eb;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .search-box input::placeholder {
+            color: #6b7280;
+        }
+
+        .search-box input:focus {
+            outline: none;
+        }
+
+        .faq-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-btn {
+            background: rgba(29, 26, 48, 0.4);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            color: #e5e7eb;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: rgba(124, 58, 237, 0.2);
+            border-color: #7c3aed;
+            color: #7c3aed;
+        }
+
+        .faq-items {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .faq-item {
+            background: rgba(29, 26, 48, 0.4);
+            border: 1px solid rgba(124, 58, 237, 0.1);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .faq-item:hover {
+            background: rgba(29, 26, 48, 0.6);
+            border-color: rgba(124, 58, 237, 0.3);
+        }
+
+        .faq-item.open {
+            background: rgba(29, 26, 48, 0.8);
+            border-color: #7c3aed;
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            gap: 1rem;
+        }
+
+        .faq-q-text {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        .faq-toggle {
+            color: #7c3aed;
+            font-size: 1.5rem;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+
+        .faq-item.open .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s;
+            margin-top: 0;
+            color: #d1d5db;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 500px;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(124, 58, 237, 0.1);
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(6, 182, 212, 0.05));
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .cta-box h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+            color: #e5e7eb;
+        }
+
+        .cta-box p {
+            color: #d1d5db;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+        }
+
+        footer {
+            max-width: 1200px;
+            margin: 6rem auto 0;
+            padding: 3rem 2rem 2rem;
+            border-top: 1px solid rgba(124, 58, 237, 0.1);
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .faq-categories {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <header>
+        <nav>
+            <div class="logo">⚔️ KAVACH</div>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/faq">FAQ</a>
+                <a href="/support">Support</a>
+            </div>
+            <a href="/signup" class="btn-primary">Start Free</a>
+        </nav>
+    </header>
+
+    <div class="content">
+        <h1>Frequently Asked Questions</h1>
+        <p class="subtitle">Find answers to common questions about KAVACH</p>
+
+        <div class="search-box">
+            <span style="color: #7c3aed;">🔍</span>
+            <input type="text" placeholder="Search FAQ..." id="searchInput">
+        </div>
+
+        <div class="faq-categories">
+            <button class="category-btn active" onclick="filterFAQ('all')">All</button>
+            <button class="category-btn" onclick="filterFAQ('getting-started')">Getting Started</button>
+            <button class="category-btn" onclick="filterFAQ('tokens')">Tokens</button>
+            <button class="category-btn" onclick="filterFAQ('alerts')">Alerts</button>
+            <button class="category-btn" onclick="filterFAQ('billing')">Billing</button>
+            <button class="category-btn" onclick="filterFAQ('security')">Security</button>
+        </div>
+
+        <div class="faq-items" id="faqItems">
+            <!-- Getting Started -->
+            <div class="faq-item" data-category="getting-started">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <div class="faq-q-text">How long does it take to deploy KAVACH?</div>
+                    <div class="faq-toggle">▼</div>
+                </div>
+                <div class="faq-answer">KAVACH deploys in 5 minutes. Just pull the Docker container, set environment variables, and start. No complex setup. No code changes needed in your application.</div>
+            </div>
+
+            <div class="faq-item" data-category="getting-started">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <div class="faq-q-text">Do I need to modify my existing code?</div>
+                    <div class="faq-toggle">▼</div>
+                </div>
+                <div class="faq-answer">No. KAVACH sits as a reverse proxy layer before your application. It intercepts traffic without modifying your code. Your application runs unchanged.</div>
+            </div>
+
+            <div class="faq-item" data-category="getting-started">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <div class="faq-q-text">Can I use KAVACH with my existing security tools?</div>
+                    <div class="faq-toggle">▼</div>
+                </div>
+                <div class="faq-answer">Yes. KAVACH integrates via webhooks with any SIEM, ticketing system, or monitoring tool. Slack, Teams, PagerDuty, Splunk, ELK — all supported.</div>
+            </div>
+
+            <!-- Tokens -->
+            <div class="faq-item" data-category="tokens">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <div class="faq-q-text">What types of honeypot tokens can I create?</div>
+                    <div class="faq-toggle">▼</div>
+                </div>
+                <div class="faq-answer">Five types: API Keys (fake credentials), URLs (embedded in code/docs), Documents (watermarked files), DNS Records (monitoring subdomains), and Email Addresses (mailing lists). Mix and match based on your needs.</div>
+            </div>
+
+            <div class="faq-item" data-category="tokens">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <div class="faq-q-text">How many tokens can I create?</div>
+                    <div class="faq-toggle">▼</div>
+                </div>
+                <div class="faq-answer">Starter plan: 10 tokens. Professional: 50 tokens. Enterprise: Unlimited. No overage charges — extra tokens cost $50 each or upgrade your plan.</div>
+            </div>
+
+            <div class="faq-item" data-category="tokens">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <div class="faq-q-text">Can attackers tell if a token is fake?</div>
+                    <div class="faq-toggle">▼</div>
+                </div>
+                <div class="faq-answer">No. KAVACH tokens are indistinguishable from real credentials. They follow your exact naming conventions, formats, and encoding. Attackers have no way to know until they're blocked.</div>
+            </div>
+
+            <!-- Alerts -->
+            <div class="faq-item" data-category="alerts">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <div class="faq-q-text">How quickly do I get alerted when a token is triggered?</div>
+                    <div class="faq-toggle">▼</div>
+                </div>
+                <div class="faq-answer">Instantly. Detection is <100ms. Alert delivery to Slack/webhook/email is real-time (typically 1-5 seconds). See attacks as they happen.</div>
+            </div>
+
+            <div class="faq-item" data-category="alerts">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <div class="faq-q-text">Will I get false positives?</div>
+                    <div class="faq-toggle">▼</div>
+                </div>
+                <div class="faq-answer">No. Zero false positives. Honeypot = definite attack. Unlike traditional WAFs that flag suspicious traffic, KAVACH only alerts on confirmed threat activities.</div>
+            </div>
+
+            <div class="faq-item" data-category="alerts">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <div class="faq-q-text">Can I customize alert rules?</div>
+                    <div class="faq-toggle">▼</div>
+                </div>
+                <div class="faq-answer">Yes. Set risk thresholds, alert channels per token type, quiet hours, and escalation rules. Route critical alerts to phone, low-risk to Slack.</div>
+            </div>
+
+            <!-- Billing -->
+            <div class="faq-item" data-category="billing">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <div class="faq-q-text">Can I switch plans anytime?</div>
+                    <div class="faq-toggle">▼</div>
+                </div>
+                <div class="faq-answer">Yes. Upgrade or downgrade instantly. We prorate charges based on usage. No cancellation fees.</div>
+            </div>
+
+            <div class="faq-item" data-category="billing">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <div class="faq-q-text">Do you offer discounts?</div>
+                    <div class="faq-toggle">▼</div>
+                </div>
+                <div class="faq-answer">Yes. Annual billing included above pricing. 2+ year commitments: 20% discount. Non-profit/government: 30% discount. Contact sales for custom terms.</div>
+            </div>
+
+            <div class="faq-item" data-category="billing">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <div class="faq-q-text">What if I need more than my plan allows?</div>
+                    <div class="faq-toggle">▼</div>
+                </div>
+                <div class="faq-answer">Add-ons available: Extra tokens ($50/token), additional users ($100/user/month), premium support ($500/month). Or upgrade to the next tier.</div>
+            </div>
+
+            <!-- Security -->
+            <div class="faq-item" data-category="security">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <div class="faq-q-text">Is my data encrypted?</div>
+                    <div class="faq-toggle">▼</div>
+                </div>
+                <div class="faq-answer">All data in transit uses TLS 1.3. At rest: AES-256 encryption. Self-hosted: full control. Cloud: managed encryption keys with option for customer-managed keys.</div>
+            </div>
+
+            <div class="faq-item" data-category="security">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <div class="faq-q-text">Do you meet compliance standards?</div>
+                    <div class="faq-toggle">▼</div>
+                </div>
+                <div class="faq-answer">Yes. SOC 2 Type II certified. GDPR, HIPAA, PCI-DSS compliant. Full audit trails. Automated compliance reporting for your auditors.</div>
+            </div>
+
+            <div class="faq-item" data-category="security">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <div class="faq-q-text">Can I self-host KAVACH?</div>
+                    <div class="faq-toggle">▼</div>
+                </div>
+                <div class="faq-answer">Yes. KAVACH is available as a self-hosted Docker image. Full control of data. On-premise or private cloud. Enterprise plans include this by default.</div>
+            </div>
+        </div>
+
+        <div class="cta-box">
+            <h2>Didn't find your answer?</h2>
+            <p>Our support team is ready to help. Get live support or schedule a demo.</p>
+            <a href="/support" class="btn-primary">Contact Support →</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 KAVACH. | <a href="/" style="color: #7c3aed; text-decoration: none;">Home</a> | <a href="/support" style="color: #7c3aed; text-decoration: none;">Support</a></p>
+    </footer>
+
+    <script>
+        function toggleFAQ(element) {
+            element.closest('.faq-item').classList.toggle('open');
+        }
+
+        function filterFAQ(category) {
+            const items = document.querySelectorAll('.faq-item');
+            const buttons = document.querySelectorAll('.category-btn');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        document.getElementById('searchInput').addEventListener('keyup', (e) => {
+            const search = e.target.value.toLowerCase();
+            const items = document.querySelectorAll('.faq-item');
+
+            items.forEach(item => {
+                const question = item.querySelector('.faq-q-text').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+
+                if (question.includes(search) || answer.includes(search)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works - KAVACH</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background: #0A0A14; color: #E0E7FF; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        .gradient-text { background: linear-gradient(120deg, #7C3AED, #06B6D4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="backdrop-blur-xl bg-black/30 rounded-full border border-purple-500/20 px-8 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-2 font-bold text-lg">
+                    <span class="text-2xl">🛡️</span> KAVACH
+                </div>
+                <nav class="hidden md:flex gap-8 text-sm">
+                    <a href="#" class="hover:text-cyan-400">Products</a>
+                    <a href="#" class="hover:text-cyan-400">How It Works</a>
+                    <a href="#" class="hover:text-cyan-400">Use Cases</a>
+                    <a href="#" class="hover:text-cyan-400">Pricing</a>
+                </nav>
+                <button class="px-6 py-2 bg-purple-600 rounded-lg">Start Free</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="min-h-screen pt-32 pb-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <h1 class="text-6xl font-bold mb-4 text-center">How It Works</h1>
+            <p class="text-xl text-gray-400 text-center mb-12">From deployment to detection in 4 simple steps</p>
+
+            <!-- Step 1 -->
+            <div class="mb-20">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="backdrop-blur-lg bg-purple-500/10 border border-purple-500/20 rounded-2xl p-12 aspect-square flex items-center justify-center">
+                        <div class="text-center">
+                            <div class="text-6xl mb-4">🐳</div>
+                            <p class="text-lg font-mono">$ docker run kavach:latest</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="text-4xl font-bold mb-4">Step 1: Deploy</h2>
+                        <p class="text-xl text-gray-400 mb-6">Run KAVACH in Docker on any infrastructure. Takes 5 minutes. Zero complexity.</p>
+                        <ul class="space-y-3">
+                            <li>✅ Works on any cloud (AWS, Azure, GCP)</li>
+                            <li>✅ Self-hosted or managed</li>
+                            <li>✅ No external dependencies</li>
+                            <li>✅ Single command to start</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="mb-20">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 md:order-1">
+                        <h2 class="text-4xl font-bold mb-4">Step 2: Scatter</h2>
+                        <p class="text-xl text-gray-400 mb-6">Generate honeypot tokens. Place them anywhere attackers look.</p>
+                        <div class="space-y-3 text-gray-400">
+                            <p>📦 <strong>Token Types:</strong></p>
+                            <ul class="pl-6 space-y-2">
+                                <li>• API Keys (sk_...)</li>
+                                <li>• URLs (https://...)</li>
+                                <li>• Documents (word.docx)</li>
+                                <li>• DNS Records</li>
+                                <li>• Email Credentials</li>
+                            </ul>
+                            <p className="mt-4">🎯 <strong>Where to Place Them:</strong></p>
+                            <ul className="pl-6 space-y-2">
+                                <li>• Git repositories</li>
+                                <li>• Email servers</li>
+                                <li>• Slack channels</li>
+                                <li>• Config files</li>
+                                <li>• Shared drives</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="order-1 md:order-2 backdrop-blur-lg bg-purple-500/10 border border-purple-500/20 rounded-2xl p-12">
+                        <div class="space-y-4">
+                            <div class="bg-black/50 p-4 rounded font-mono text-sm">
+                                <p class="text-cyan-400">Token: sk_0d7dce6cdea2e1c...</p>
+                                <p class="text-gray-500">Type: api_key</p>
+                                <p class="text-gray-500">Status: active</p>
+                                <p class="text-gray-500 mt-2">📋 Copy & place</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="mb-20">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="backdrop-blur-lg bg-purple-500/10 border border-purple-500/20 rounded-2xl p-12">
+                        <div class="text-center">
+                            <p class="text-6xl mb-4">⚡</p>
+                            <p class="text-lg font-semibold">Attacker accesses honeypot</p>
+                            <p class="text-gray-400 mt-2">KAVACH detects & analyzes instantly</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h2 class="text-4xl font-bold mb-4">Step 3: Detect</h2>
+                        <p class="text-xl text-gray-400 mb-6">Automatic threat classification & profiling.</p>
+                        <div class="bg-black/50 p-6 rounded-lg border border-purple-500/20 space-y-3 text-sm">
+                            <div><span class="text-cyan-400">IP:</span> 192.168.1.105</div>
+                            <div><span class="text-cyan-400">Location:</span> Unknown VPN</div>
+                            <div><span class="text-cyan-400">Browser:</span> Chrome / Linux</div>
+                            <div><span class="text-cyan-400">Device:</span> Headless (Bot)</div>
+                            <div><span class="text-cyan-400">Risk Score:</span> <span class="text-red-500 font-bold">95%</span> 🔴</div>
+                            <div><span class="text-cyan-400">Threat Level:</span> CRITICAL</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div className="mb-20">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h2 class="text-4xl font-bold mb-4">Step 4: Alert</h2>
+                        <p class="text-xl text-gray-400 mb-6">Real-time notifications to your team.</p>
+                        <div class="space-y-4">
+                            <div class="bg-purple-500/20 border border-purple-500/50 rounded-lg p-4">
+                                <p class="font-semibold mb-2">🔔 Slack</p>
+                                <p class="text-sm text-gray-400">Instant @security alert with full context</p>
+                            </div>
+                            <div class="bg-purple-500/20 border border-purple-500/50 rounded-lg p-4">
+                                <p class="font-semibold mb-2">🪝 Webhook</p>
+                                <p class="text-sm text-gray-400">POST to your infrastructure for custom workflows</p>
+                            </div>
+                            <div class="bg-purple-500/20 border border-purple-500/50 rounded-lg p-4">
+                                <p class="font-semibold mb-2">✉️ Email</p>
+                                <p class="text-sm text-gray-400">Executive summary sent to stakeholders</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="backdrop-blur-lg bg-purple-500/10 border border-purple-500/20 rounded-2xl p-12">
+                        <div class="space-y-4">
+                            <div class="bg-red-500/20 border border-red-500 rounded p-4">
+                                <p class="text-red-400 font-bold">🚨 CRITICAL ALERT</p>
+                                <p class="text-sm mt-2">Honeypot token accessed</p>
+                                <p class="text-sm font-mono mt-2">sk_0d7dce...</p>
+                                <p class="text-sm mt-2">IP: 192.168.1.105</p>
+                                <p class="text-sm">Risk: 95% (CRITICAL)</p>
+                            </div>
+                            <button class="w-full bg-red-600 py-2 rounded font-semibold">Block Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-20 text-center">
+        <h2 class="text-4xl font-bold mb-6">Ready to deploy?</h2>
+        <button class="px-8 py-4 bg-purple-600 rounded-lg font-semibold">Start Free Trial</button>
+    </section>
+</body>
+</html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - KAVACH Deception Security Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #7C3AED;
+            --dark-bg: #0A0A14;
+            --dark-surface: #0D0B1A;
+        }
+        
+        body {
+            background: var(--dark-bg);
+            color: #E0E7FF;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 16px;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(120deg, #7C3AED, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glow-button {
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.4);
+            transition: all 0.3s;
+        }
+        
+        .glow-button:hover {
+            box-shadow: 0 0 30px rgba(124, 58, 237, 0.6);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header (matches homepage) -->
+    <header class="fixed top-0 w-full z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="backdrop-blur-xl bg-black/30 rounded-full border border-purple-500/20 px-8 py-4 flex items-center justify-between">
+                <a href="homepage_updated.html" class="flex items-center gap-2 font-bold text-lg no-underline text-white">
+                    <span class="text-2xl">🛡️</span>
+                    <span>KAVACH</span>
+                </a>
+                <nav class="hidden md:flex items-center gap-8 text-base">
+                    <a href="how-it-works_updated.html" class="hover:text-cyan-400 transition">How It Works</a>
+                    <a href="use-cases_updated.html" class="hover:text-cyan-400 transition">Use Cases</a>
+                    <a href="pricing_updated.html" class="text-cyan-400 transition">Pricing</a>
+                    <a href="#" class="hover:text-cyan-400 transition">Docs</a>
+                    <a href="#" class="hover:text-cyan-400 transition">FAQ</a>
+                </nav>
+                <div class="flex items-center gap-4">
+                    <button class="px-6 py-3 bg-purple-600 rounded-lg glow-button font-semibold text-base">Start Free Trial</button>
+                    <a href="login_updated.html" class="px-6 py-3 border border-purple-500/50 rounded-lg text-base no-underline text-white hover:bg-purple-500/10 transition">Login</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Pricing Content -->
+    <section class="pt-40 pb-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <!-- Hero -->
+            <div class="text-center mb-16">
+                <h1 style="font-size: 52px; line-height: 1.1;" class="font-bold mb-6">
+                    Simple, <span class="gradient-text">Transparent</span> Pricing
+                </h1>
+                <p class="text-xl text-gray-400 max-w-3xl mx-auto">
+                    Choose the plan that scales with your security needs. All plans include the full 7D classifier, real-time alerts, and attacker profiling.
+                </p>
+            </div>
+
+            <!-- Pricing Cards -->
+            <div class="grid md:grid-cols-3 gap-8 mb-24">
+                <!-- Starter -->
+                <div class="backdrop-blur-lg bg-purple-500/10 border border-purple-500/20 rounded-2xl p-8 flex flex-col">
+                    <div class="mb-8">
+                        <h3 style="font-size: 28px;" class="font-bold mb-2">Starter</h3>
+                        <p class="text-gray-400 text-base mb-4">For small teams & startups</p>
+                        <div class="flex items-baseline gap-1">
+                            <span style="font-size: 32px;" class="font-bold">$2,000</span>
+                            <span class="text-gray-400">/month</span>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full py-3.5 bg-purple-600 hover:bg-purple-700 rounded-lg mb-8 font-semibold text-base transition glow-button">
+                        Start Free Trial
+                    </button>
+                    
+                    <div class="space-y-4 text-base flex-1">
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>50 honeypot tokens</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>1 user seat</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>Webhook + Slack alerts</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>Real-time dashboard</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>7-day event history</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>7D risk classifier</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>Email support</span>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-gray-500 mt-6 pt-4 border-t border-purple-500/10">
+                        Perfect for: Early-stage companies, dev teams, security researchers
+                    </p>
+                </div>
+
+                <!-- Professional (Featured) -->
+                <div class="backdrop-blur-lg bg-purple-600/20 border-2 border-purple-400 rounded-2xl p-8 relative flex flex-col">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-purple-600 px-4 py-1.5 rounded-full text-sm font-semibold">
+                        ⭐ Most Popular
+                    </div>
+                    <div class="mb-8">
+                        <h3 style="font-size: 28px;" class="font-bold mb-2">Professional</h3>
+                        <p class="text-gray-400 text-base mb-4">For growing companies</p>
+                        <div class="flex items-baseline gap-1">
+                            <span style="font-size: 32px;" class="font-bold">$5,000</span>
+                            <span class="text-gray-400">/month</span>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full py-3.5 bg-purple-600 hover:bg-purple-700 rounded-lg mb-8 font-semibold text-base transition glow-button">
+                        Start Free Trial
+                    </button>
+                    
+                    <div class="space-y-4 text-base flex-1">
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span><strong>500</strong> honeypot tokens</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>3 user seats</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>Webhook + Slack + Email alerts</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>90-day event history</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>Full API access</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>Attacker correlation</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>Priority support</span>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-gray-500 mt-6 pt-4 border-t border-purple-500/10">
+                        Perfect for: Mid-market companies, regulated industries, security teams
+                    </p>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="backdrop-blur-lg bg-purple-500/10 border border-purple-500/20 rounded-2xl p-8 flex flex-col">
+                    <div class="mb-8">
+                        <h3 style="font-size: 28px;" class="font-bold mb-2">Enterprise</h3>
+                        <p class="text-gray-400 text-base mb-4">For large organizations</p>
+                        <div class="flex items-baseline gap-1">
+                            <span style="font-size: 32px;" class="font-bold">Custom</span>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full py-3.5 border border-purple-500 hover:bg-purple-500/10 rounded-lg mb-8 font-semibold text-base transition">
+                        Talk to Sales
+                    </button>
+                    
+                    <div class="space-y-4 text-base flex-1">
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span><strong>Unlimited</strong> tokens</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>Unlimited users</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>Everything in Professional</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>Multi-tenant support</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>Unlimited event history</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>White-label dashboard</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>SLA 99.9% + dedicated support</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="text-green-400 mt-0.5">✓</span>
+                            <span>Custom integrations</span>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-gray-500 mt-6 pt-4 border-t border-purple-500/10">
+                        Perfect for: Fortune 500, MSPs, government agencies, security services
+                    </p>
+                </div>
+            </div>
+
+            <!-- All Plans Include -->
+            <div class="mb-24">
+                <h2 style="font-size: 36px;" class="font-bold text-center mb-12">All Plans Include</h2>
+                <div class="grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+                    <div class="text-center backdrop-blur-lg bg-purple-500/5 border border-purple-500/10 rounded-xl p-6">
+                        <div class="text-3xl mb-3">🎯</div>
+                        <p class="font-semibold mb-1">Zero False Positives</p>
+                        <p class="text-sm text-gray-500">Every alert is confirmed</p>
+                    </div>
+                    <div class="text-center backdrop-blur-lg bg-purple-500/5 border border-purple-500/10 rounded-xl p-6">
+                        <div class="text-3xl mb-3">🧠</div>
+                        <p class="font-semibold mb-1">7D Risk Classifier</p>
+                        <p class="text-sm text-gray-500">ML-ready scoring</p>
+                    </div>
+                    <div class="text-center backdrop-blur-lg bg-purple-500/5 border border-purple-500/10 rounded-xl p-6">
+                        <div class="text-3xl mb-3">👤</div>
+                        <p class="font-semibold mb-1">Attacker Profiling</p>
+                        <p class="text-sm text-gray-500">IP, device, behavior</p>
+                    </div>
+                    <div class="text-center backdrop-blur-lg bg-purple-500/5 border border-purple-500/10 rounded-xl p-6">
+                        <div class="text-3xl mb-3">🔒</div>
+                        <p class="font-semibold mb-1">Self-Hosted</p>
+                        <p class="text-sm text-gray-500">Your data, your control</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ROI Section -->
+            <div class="backdrop-blur-lg bg-purple-500/10 border border-purple-500/30 rounded-2xl p-12 max-w-3xl mx-auto mb-24">
+                <h2 style="font-size: 36px;" class="font-bold text-center mb-4">Early Detection = Cost Prevention</h2>
+                <p class="text-gray-400 text-center mb-10">Catch attackers before lateral movement. Prevent damage before it starts.</p>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-red-400 mb-2">$4.29M</div>
+                        <p class="text-gray-400">Average breach cost (IBM 2024)</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-green-400 mb-2">&lt;1 hour</div>
+                        <p class="text-gray-400">KAVACH detection time</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-orange-400 mb-2">197 days</div>
+                        <p class="text-gray-400">Industry avg detection gap</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-green-400 mb-2">$2M+</div>
+                        <p class="text-gray-400">Potential cost savings</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Free Trial CTA -->
+            <div class="text-center">
+                <h2 style="font-size: 36px;" class="font-bold mb-4">Start Free Today</h2>
+                <p class="text-lg text-gray-400 mb-8">7 days free • 5 honeypot tokens • No credit card required</p>
+                <button class="px-10 py-4 bg-purple-600 rounded-lg font-semibold glow-button text-lg">
+                    Start Free Trial
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (matches homepage) -->
+    <footer class="border-t border-purple-500/10 bg-black/50 py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-5 gap-12 mb-12">
+                <!-- Product -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Product</h4>
+                    <ul class="space-y-3 text-gray-400 text-base">
+                        <li><a href="how-it-works_updated.html" class="hover:text-cyan-400 transition">How It Works</a></li>
+                        <li><a href="pricing_updated.html" class="hover:text-cyan-400 transition">Pricing</a></li>
+                        <li><a href="use-cases_updated.html" class="hover:text-cyan-400 transition">Use Cases</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition">Security</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Support -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Support</h4>
+                    <ul class="space-y-3 text-gray-400 text-base">
+                        <li><a href="#" class="hover:text-cyan-400 transition">Documentation</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition">FAQ</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition">Help Center</a></li>
+                        <li><a href="mailto:support@kavach.local" class="hover:text-cyan-400 transition">Email Support</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Get in Touch</h4>
+                    <ul class="space-y-3 text-gray-400 text-base">
+                        <li><a href="#" class="hover:text-cyan-400 transition">Schedule Demo</a></li>
+                        <li>support@kavach.local</li>
+                        <li class="text-green-400">● All systems operational</li>
+                    </ul>
+                </div>
+                
+                <!-- Legal -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6">Legal</h4>
+                    <ul class="space-y-3 text-gray-400 text-base">
+                        <li><a href="#" class="hover:text-cyan-400 transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-cyan-400 transition">Security Policy</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Brand -->
+                <div>
+                    <h4 class="font-bold text-lg mb-6">KAVACH</h4>
+                    <p class="text-gray-400 text-base mb-4">Deception Security Platform</p>
+                    <p class="text-gray-500 text-sm">Built with ❤️ by Parth Jindal</p>
+                </div>
+            </div>
+            
+            <div class="border-t border-purple-500/10 pt-8 text-center text-gray-500 text-base">
+                <p>© 2026 KAVACH Security. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

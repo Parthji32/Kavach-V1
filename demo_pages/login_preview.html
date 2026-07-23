@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>body { background: #0A0A14; color: #E0E7FF; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }</style>
+</head>
+<body>
+    <div class="min-h-screen flex items-center justify-center relative overflow-hidden">
+        <!-- Background Orbs -->
+        <div class="absolute inset-0">
+            <div class="absolute top-20 left-10 w-96 h-96 bg-purple-600 rounded-full blur-3xl opacity-20"></div>
+            <div class="absolute bottom-20 right-10 w-80 h-80 bg-cyan-500 rounded-full blur-3xl opacity-20"></div>
+        </div>
+
+        <div class="w-full max-w-md px-6 relative z-10">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <div class="text-5xl mb-4">🛡️</div>
+                <h1 class="text-3xl font-bold mb-2">KAVACH</h1>
+                <p class="text-gray-400">Catch attackers the moment they move</p>
+            </div>
+
+            <!-- Login Card -->
+            <div class="backdrop-blur-xl bg-purple-500/10 border border-purple-500/20 rounded-2xl p-8">
+                <h2 class="text-2xl font-bold mb-2">Welcome Back</h2>
+                <p class="text-gray-400 mb-8">Sign in to your KAVACH dashboard</p>
+
+                <!-- Form -->
+                <form class="space-y-6">
+                    <!-- Email -->
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Email Address</label>
+                        <input 
+                            type="email" 
+                            placeholder="you@company.com"
+                            class="w-full px-4 py-3 bg-purple-500/10 border border-purple-500/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500"
+                        >
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Password</label>
+                        <div class="relative">
+                            <input 
+                                type="password" 
+                                placeholder="••••••••"
+                                class="w-full px-4 py-3 bg-purple-500/10 border border-purple-500/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500"
+                            >
+                            <button type="button" class="absolute right-3 top-3 text-gray-400 hover:text-gray-300">
+                                Show
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Remember Me -->
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember" class="w-4 h-4">
+                        <label for="remember" class="ml-2 text-sm text-gray-400">Remember me for 30 days</label>
+                    </div>
+
+                    <!-- Sign In Button -->
+                    <button 
+                        type="submit"
+                        class="w-full py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold transition"
+                    >
+                        Sign In
+                    </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="my-8 relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-purple-500/20"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-purple-500/10">or</span>
+                    </div>
+                </div>
+
+                <!-- Links -->
+                <div class="space-y-3 text-sm text-center">
+                    <a href="#" class="block text-purple-400 hover:text-purple-300">Forgot your password?</a>
+                    <a href="#" class="block text-gray-400 hover:text-gray-300">Contact support</a>
+                </div>
+            </div>
+
+            <!-- Sign Up Link -->
+            <div class="text-center mt-8">
+                <p class="text-gray-400">
+                    Don't have an account?
+                    <a href="#" class="text-purple-400 hover:text-purple-300 font-semibold">Sign up free</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
